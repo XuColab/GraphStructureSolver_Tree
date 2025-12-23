@@ -1,0 +1,64 @@
+Q6: 一个长40米、宽20米的长方形操场，四边每隔10米种一棵树
+[hook] 跳过 tree_relation 连边：当前模式 rectangle_clos
+[hook] rectangle_closed: Width → Length2 (Width_348f)
+[hook] rectangle_closed: 添加 Length2 - Interval divide
+====last_map: {'Length': 'Length_353e', 'Width': 'Width9', 'TreeCnt': 'TreeCnt_418a', 'SegmentCnt': 'SegmentCn
+构建的图： [('Length_353e', {'type': 'Length1', 'value'Length2', 'value': 20.0}), ('Interval_1729', {'type': 'nt_418a', {'type': 'TreeCnt', 'value': None}), ('Segmen, 'value': None})] [('Length_353e', 'Interval_1729', {''Width_348f', 'Interval_1729', {'type': 'divides', 'op'
+图模式： tree rectangle_closed
+匹配到子图模板：Tree_Rectangle_CornerOverlap，映射：{'L_1729', 'L2': 'Width_348f', 'Z': 'TreeCnt_418a'}
+求解结果：[{Z: 12}]
+-----> {'Z': 12}
+数学题集中标记的题型: rectangle_closed, 答案: 12
+[hook] 跳过 tree_relation 连边：当前模式 rectangle_clos
+[hook] rectangle_closed: Width → Length2 (Width_790d)
+[hook] rectangle_closed: 添加 Length2 - Interval divide
+====last_map: {'Length': 'Length_db09', 'Width': 'Width2', 'TreeCnt': 'TreeCnt_765c', 'SegmentCnt': 'SegmentCn
+构建的图： [('Length_db09', {'type': 'Length1', 'value'Length2', 'value': 20.0}), ('Interval_82b2', {'type': 'nt_765c', {'type': 'TreeCnt', 'value': None}), ('Segmen, 'value': None})] [('Length_db09', 'Interval_82b2', {''Width_790d', 'Interval_82b2', {'type': 'divides', 'op'
+子图匹配： tree rectangle_closed
+匹配到子图模板：Tree_Rectangle_CornerOverlap，映射：{'L_82b2', 'L2': 'Width_790d', 'Z': 'TreeCnt_765c'}
+【模板】 Tree_Rectangle_CornerOverlap 【模式】 rectangl
+【公式】 ['Z = 2 * (L1 / I + 1) + 2 * (L2 / I + 1) - 4'
+【代入】 ['Eq(Z, 12)']
+【解】   {'Z': 12}
+【说明】 结果为计数型（棵树/段数/差值），已做整数化处理
+Mermaid（英文）文件： LogicGraph_output/q6_en.mmd
+Mermaid（中文）文件： LogicGraph_output/q6_cn.mmd
+
+Q7: 一条长120米的路，两端都植树，原来每隔10米种一棵，现
+？
+[hook] 跳过 tree_relation 连边：当前模式 both_ends_comp
+[hook] both_ends_compare: 去重并补齐 Y–X1 / Y–X2 divide
+====last_map: {'Length': 'Length_65f6', 'Interval': 'In_fbaf', 'Interval1': 'Interval1_3a64', 'Interval2': 'In', 'SegmentCnt': 'SegmentCnt_b998'}
+构建的图： [('Length_65f6', {'type': 'Length', 'value': 'TreeCnt', 'value': None}), ('Interval1_3a64', {'type'nterval2_504f', {'type': 'Interval2', 'value': 20}), ('ue': None}), ('SegmentCnt_b998', {'type': 'SegmentCnt',, 'Interval1_3a64', {'type': 'divides', 'op': None}), (
+{'type': 'divides', 'op': None})]
+图模式： tree both_ends_compare
+匹配到子图模板：Tree_IntervalCompare_Diff，映射：{'Y': a64', 'X2': 'Interval2_504f', 'D': 'Diff_8ecb'}
+求解结果：[{D: 6}]
+-----> {'D': 6}
+数学题集中标记的题型: both_ends, 答案: 6
+[hook] 跳过 tree_relation 连边：当前模式 both_ends_comp
+[hook] both_ends_compare: 去重并补齐 Y–X1 / Y–X2 divide
+====last_map: {'Length': 'Length_953f', 'Interval': 'In_059e', 'Interval1': 'Interval1_51ed', 'Interval2': 'In', 'SegmentCnt': 'SegmentCnt_ef78'}
+构建的图： [('Length_953f', {'type': 'Length', 'value': 'TreeCnt', 'value': None}), ('Interval1_51ed', {'type'nterval2_7192', {'type': 'Interval2', 'value': 20}), ('ue': None}), ('SegmentCnt_ef78', {'type': 'SegmentCnt',, 'Interval1_51ed', {'type': 'divides', 'op': None}), (
+{'type': 'divides', 'op': None})]
+子图匹配： tree both_ends_compare
+匹配到子图模板：Tree_IntervalCompare_Diff，映射：{'Y': 1ed', 'X2': 'Interval2_7192', 'D': 'Diff_43e5'}
+【模板】 Tree_IntervalCompare_Diff 【模式】 both_ends_c
+【公式】 ['D = (Y / X1 + 1) - (Y / X2 + 1)']
+【代入】 ['Eq(D, 6)']
+【解】   {'D': 6}
+【说明】 结果为计数型（棵树/段数/差值），已做整数化处理
+Mermaid（英文）文件： LogicGraph_output/q7_en.mmd
+Mermaid（中文）文件： LogicGraph_output/q7_cn.mmd
+
+Q8: 一条由两段组成的小路：第一段60米，每隔10米植树，第二
+rval_7145', {'type': 'divides', 'op': None}), ('Length_9b45', 'Interval_8bdf', {'type': 'divides', 'op': None})]
+子图匹配： tree multi_segment
+匹配到子图模板：Tree_MultiSegment_ConnectMerge，映射：{'L1': 'Length_2182', 'I1': 'Interval_7145', 'L2': 'Length_9b45', 'I2': 'Interval_8bdf', 'Z': 'TreeCnt_89ac'}  
+【模板】 Tree_MultiSegment_ConnectMerge 【模式】 multi_segment
+【公式】 ['Z = (L1 / I1 + 1) + (L2 / I2 + 1)']
+【代入】 ['Eq(Z, 14)']
+【解】   {'Z': 14}
+【说明】 结果为计数型（棵树/段数/差值），已做整数化处理。
+Mermaid（英文）文件： LogicGraph_output/q8_en.mmd      
+Mermaid（中文）文件： LogicGraph_output/q8_cn.mmd  

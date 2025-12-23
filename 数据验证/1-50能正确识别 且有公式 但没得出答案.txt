@@ -1,0 +1,45 @@
+Q20: 40位小朋友站成人数相等的两列做操,每相邻两位小朋友相隔2米,做操的队伍长多少米.
+====last_map: {'Interval': 'Interval_c396', 'Length': 'Length_cff5', 'SegmentCnt': 'SegmentCnt_4cbd', 'TreeCnt': 'TreeCnt_5d6f'}
+====last_map: {'Interval': 'Interval_c396', 'Length': 'Length_cff5', 'SegmentCnt': 'SegmentCnt_4cbd', 'TreeCnt': 'TreeCnt_5d6f'}
+构建的图： [('Interval_c396', {'type': 'Interval', 'value': 2}), ('Length_cff5', {'type': 'Length', 'value': None}), ('SegmentCnt_4cbd', {'type': 'SegmentCnt', 'value': None}), ('TreeCnt_5d6f', {'type': 'TreeCnt', 'value': None})] [('Length_cff5', 'Interval_c396', {'type': 'divides', 'op': None}), ('SegmentCnt_4cbd', 'TreeCnt_5d6f', {'type': 'tree_relation', 'op': 'PLUS1'})]
+图模式： tree both_ends_quantity
+匹配到子图模板：Tree_both，映射：{'Y': 'Length_cff5', 'X': 'Interval_c396', 'N': 'SegmentCnt_4cbd', 'Z': 'TreeCnt_5d6f'}（已按 target 优选）
+【代入后方程】 Eq(N, Y/2) ; Eq(Z, N + 1)
+求解结果：[{N: Z - 1, Y: 2*Z - 2}]
+-----> {'N': Z - 1, 'Y': 2*Z - 2}
+数据集中标记的答案: 38
+
+Q30: 10位小朋友站成一列做操,每相邻两位小朋友相隔2米,做操的队伍长多少米.
+====last_map: {'Interval': 'Interval_345d', 'Length': 'Length_c838', 'SegmentCnt': 'SegmentCnt_e9af', 'TreeCnt': 'TreeCnt_bafe'}
+====last_map: {'Interval': 'Interval_345d', 'Length': 'Length_c838', 'SegmentCnt': 'SegmentCnt_e9af', 'TreeCnt': 'TreeCnt_bafe'}
+构建的图： [('Interval_345d', {'type': 'Interval', 'value': 2}), ('Length_c838', {'type': 'Length', 'value': None}), ('SegmentCnt_e9af', {'type': 'SegmentCnt', 'value': None}), ('TreeCnt_bafe', {'type': 'TreeCnt', 'value': None})] [('Length_c838', 'Interval_345d', {'type': 'divides', 'op': None}), ('SegmentCnt_e9af', 'TreeCnt_bafe', {'type': 'tree_relation', 'op': 'PLUS1'})]
+图模式： tree both_ends_quantity
+匹配到子图模板：Tree_both，映射：{'Y': 'Length_c838', 'X': 'Interval_345d', 'N': 'SegmentCnt_e9af', 'Z': 'TreeCnt_bafe'}（已按 target 优选）
+【代入后方程】 Eq(N, Y/2) ; Eq(Z, N + 1)
+求解结果：[{N: Z - 1, Y: 2*Z - 2}]
+-----> {'N': Z - 1, 'Y': 2*Z - 2}
+数据集中标记的答案: 18
+
+Q46: 6个同学排成一排做操,每两个同学之间相隔2米,队伍一共长多少米.
+====last_map: {'Interval': 'Interval_29e5', 'Length': 'Length_e8a3', 'SegmentCnt': 'SegmentCnt_3443', 'TreeCnt': 'TreeCnt_df92'}
+====last_map: {'Interval': 'Interval_29e5', 'Length': 'Length_e8a3', 'SegmentCnt': 'SegmentCnt_3443', 'TreeCnt': 'TreeCnt_df92'}
+构建的图： [('Interval_29e5', {'type': 'Interval', 'value': 2}), ('Length_e8a3', {'type': 'Length', 'value': None}), ('SegmentCnt_3443', {'type': 'SegmentCnt', 'value': None}), ('TreeCnt_df92', {'type': 'TreeCnt', 'value': None})] [('Length_e8a3', 'Interval_29e5', {'type': 'divides', 'op': None}), ('SegmentCnt_3443', 'TreeCnt_df92', {'type': 'tree_relation', 'op': 'PLUS1'})]
+图模式： tree both_ends_quantity
+匹配到子图模板：Tree_both，映射：{'Y': 'Length_e8a3', 'X': 'Interval_29e5', 'N': 'SegmentCnt_3443', 'Z': 'TreeCnt_df92'}（已按 target 优选）
+【代入后方程】 Eq(N, Y/2) ; Eq(Z, N + 1)
+求解结果：[{N: Z - 1, Y: 2*Z - 2}]
+-----> {'N': Z - 1, 'Y': 2*Z - 2}
+数据集中标记的答案: 10
+
+Q48: 池塘的4周栽了一圈树,每两棵树相隔4米,甲、乙两人同时从同一棵树出发,反向而行,相遇时甲走了46米,乙走了54米,则这圈树共有多少棵.
+[hook] 跳过 tree_relation 连边：当前模式 loop_closed → op = CUSTOM
+====last_map: {'Interval': 'Interval_af32', 'TreeCnt': 'TreeCnt_443c', 'Length': 'Length_5cde', 'SegmentCnt': 'SegmentCnt_15b6'}
+[hook] 跳过 tree_relation 连边：当前模式 loop_closed → op = CUSTOM
+====last_map: {'Interval': 'Interval_af32', 'TreeCnt': 'TreeCnt_443c', 'Length': 'Length_5cde', 'SegmentCnt': 'SegmentCnt_15b6'}
+构建的图： [('Interval_af32', {'type': 'Interval', 'value': 4}), ('TreeCnt_443c', {'type': 'TreeCnt', 'value': None}), ('Length_5cde', {'type': 'Length', 'value': None}), ('SegmentCnt_15b6', {'type': 'SegmentCnt', 'value': None})] [('Length_5cde', 'Interval_af32', {'type': 'divides', 'op': None})]
+图模式： tree loop_closed
+匹配到子图模板：Tree_Loop_Closed，映射：{'L': 'Length_5cde', 'I': 'Interval_af32', 'Z': 'TreeCnt_443c'}（已按 target 优选）
+【代入后方程】 Eq(Z, L/4)
+求解结果：[{L: 4*Z}]
+-----> {'L': 4*Z}
+数据集中标记的答案: 25

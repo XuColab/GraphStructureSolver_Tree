@@ -1,0 +1,92 @@
+[
+  {
+    "id": "Q001",
+    "question": "一条小路长120米，两端都要植树，每隔15米种一棵，一共要种多少棵树？",
+    "description": "基本型题目-路两端都植树",
+    "type": "both_ends",
+    "subtype": "间隔整除",
+    "formula_hint": "树棵数 = 路长 ÷ 间隔 + 1",
+    "answer": 9
+  },
+  {
+    "id": "Q002",
+    "question": "一条小路长100米，从一端开始每隔10米种一棵树，另一端不种，一共能种几棵？",
+    "description": "基本型题目-路一端不植树",
+    "type": "one_end",
+    "subtype": "间隔整除",
+    "formula_hint": "树棵数 = 路长 ÷ 间隔",
+    "answer": 10
+  },
+  {
+    "id": "Q003",
+    "question": "一条小路长90米，两端都不植树，每隔15米种一棵，一共种多少棵树？",
+    "description": "基本型题目-路两端都不植树（中间植树）",
+    "type": "none_end",
+    "subtype": "间隔整除",
+    "formula_hint": "树棵数 = 路长 ÷ 间隔 - 1",
+    "answer": 5
+  },
+  {
+    "id": "Q004",
+    "question": "一条小路长82米，从一端开始每隔15米种一棵树，另一端不种，共能种几棵？",
+    "description": "拓展型题目-一段不是间隔整除（需向下取整）",
+    "type": "one_end",
+    "subtype": "非整除",
+    "formula_hint": "树棵数 = 路长 ÷ 间隔（向下取整）",
+    "answer": 5
+  },
+  {
+    "id": "Q005",
+    "question": "一个长40米、宽20米的长方形操场，四边每隔10米种一棵树，四个角都种，共要种多少棵树？",
+    "description": "拓展型题目-围操场四边种树（角上都种）",
+    "type": "rectangle_closed",
+    "subtype": "角上重复",
+    "formula_hint": "总棵数 = (每边棵数之和) - 重复角数",
+    "answer": 12
+  },  
+  {
+    "id": "Q006",
+    "question": "一条小路两端都植树，共植了11棵，每两棵之间相隔8米，这条小路长多少米？",
+    "description": "综合题型（反推/多步推理）-已知树棵数，反推长度",
+    "type": "both_ends",
+    "subtype": "反推长度",
+    "formula_hint": "间隔数 = 棵树数 - 1，路长 = 间隔数 × 间隔",
+    "answer": 80
+  },
+  {
+    "id": "Q007",
+    "question": "一条长120米的路，两端都植树，原来每隔10米种一棵，现在改为每隔20米种一棵，少种了几棵？",
+    "description": "综合题型（反推/多步推理）-改变间隔看树的变化",
+    "type": "both_ends",
+    "subtype": "比较差值",
+    "formula_hint": "新旧树数差 = 原树数 - 改后树数",
+    "answer": 6
+  },
+  {
+    "id": "Q008",
+    "question": "一条由两段组成的小路：第一段60米，每隔10米植树，第二段90米，每隔15米植树，两端都植树，共种几棵？",
+    "description": "多段合成-两段路连接",
+    "type": "multi_segment",
+    "subtype": "段连接重复",
+    "formula_hint": "分段分别计算，连接处去重",
+    "answer": 14
+  },
+  {
+    "id": "Q009",
+    "question": "一条路长200米，每隔20米挂一盏灯，道路两端也挂灯，一共挂了多少盏灯？",
+    "description": "创新/情境题型-灯串题类变形（线性结构同植树题）",
+    "type": "both_ends",
+    "subtype": "灯串类等价植树",
+    "formula_hint": "灯数 = 全长 ÷ 间隔 + 1",
+    "answer": 11
+  },
+  {
+    "id": "Q010",
+    "question": "一座小桥长45米，用长5米的木板铺成，两端都铺，共需多少块木板？",
+    "description": "创新/情境题型-小桥铺板问题（结构类相似）",
+    "type": "tiling_linear",
+    "subtype": "整除类结构",
+    "formula_hint": "块数 = 路长 ÷ 木板长度",
+    "answer": 9
+  }
+]

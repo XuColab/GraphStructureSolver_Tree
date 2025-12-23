@@ -1,0 +1,103 @@
+[
+    {
+    "id": "Trip_Join_Simultaneous_v1",
+    "topic": "trip",
+    "mode": "join",
+    "nodes": [
+        {"id":"L",  "type":"Length"},
+        {"id":"V1", "type":"Speed"},
+        {"id":"V2", "type":"Speed"},
+        {"id":"T",  "type":"Time", "role":"target"}
+    ],
+    "edges": [],
+    "formula": ["L = (V1 + V2) * T"],
+    "unknowns": ["T"],
+    "forbid_roles": [ {"type":"Time", "role":"delta_t"} ],
+    "guards": ["L>0", "V1>0", "V2>0"],
+    "solver": "equation"
+    },
+    {
+    "id": "Trip_Chase_Simultaneous_v1",
+    "topic": "trip",
+    "mode": "chase",
+    "nodes": [
+        {"id":"Dgap","type":"Length","role":"gap"},
+        {"id":"Vf","type":"Speed"},
+        {"id":"Vs","type":"Speed"},
+        {"id":"Tc","type":"Time","role":"target"}
+    ],
+    "edges": [],
+    "formula": ["Dgap = (Vf - Vs) * Tc"],
+    "unknowns": ["Tc"],
+    "guards": ["Vf>Vs", "Dgap>=0"],
+    "solver": "equation"
+    },
+    {
+    "id": "Trip_Join_DeltaT_v1",
+    "topic": "trip",
+    "mode": "join",
+    "nodes": [
+        {"id":"L",  "type":"Length"},
+        {"id":"V1", "type":"Speed"},
+        {"id":"V2", "type":"Speed"},
+        {"id":"DT", "type":"Time", "role":"delta_t"},
+        {"id":"T2", "type":"Time", "role":"target"}
+    ],
+    "edges": [],
+    "formula": ["L = V1*(T2 + DT) + V2*T2"],
+    "unknowns": ["T2"],
+    "guards": ["L>0", "V1>0", "V2>0", "DT>0"],
+    "solver": "equation"
+    },
+{
+  "id": "Trip_Join_Simultaneous_v1",
+  "topic": "trip",
+  "mode": "join",
+  "nodes": [
+    {"id":"L",  "type":"Length"},
+    {"id":"V1", "type":"Speed"},
+    {"id":"V2", "type":"Speed"},
+    {"id":"T",  "type":"Time", "role":"target"}
+  ],
+  "edges": [],
+  "formula": ["L = (V1 + V2) * T"],
+  "unknowns": ["T"],
+  "forbid_roles": [ {"type":"Time", "role":"delta_t"} ],
+  "guards": ["L>0", "V1>0", "V2>0"],
+  "solver": "equation"
+},
+{
+  "id": "Trip_Chase_Simultaneous_v1",
+  "topic": "trip",
+  "mode": "chase",
+  "nodes": [
+    {"id":"Dgap","type":"Length","role":"gap"},
+    {"id":"Vf","type":"Speed"},
+    {"id":"Vs","type":"Speed"},
+    {"id":"Tc","type":"Time","role":"target"}
+  ],
+  "edges": [],
+  "formula": ["Dgap = (Vf - Vs) * Tc"],
+  "unknowns": ["Tc"],
+  "guards": ["Vf>Vs", "Dgap>=0"],
+  "solver": "equation"
+},
+{
+  "id": "Trip_Join_DeltaT_v1",
+  "topic": "trip",
+  "mode": "join",
+  "nodes": [
+    {"id":"L",  "type":"Length"},
+    {"id":"V1", "type":"Speed"},
+    {"id":"V2", "type":"Speed"},
+    {"id":"DT", "type":"Time", "role":"delta_t"},
+    {"id":"T2", "type":"Time", "role":"target"}
+  ],
+  "edges": [],
+  "formula": ["L = V1*(T2 + DT) + V2*T2"],
+  "unknowns": ["T2"],
+  "guards": ["L>0", "V1>0", "V2>0", "DT>0"],
+  "solver": "equation"
+}
+
+]

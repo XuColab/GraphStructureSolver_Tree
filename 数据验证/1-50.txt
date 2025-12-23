@@ -1,0 +1,581 @@
+子图模板数: 31
+已加载题型: ['tree']
+['both_ends_quantity', 'none_end_quantity', 'one_end_quantity', 'both_ends_distance', 'rectangle_closed', 'both_ends_compare', 'multi_segment', 'adjacent_share', 'two_sides_wrap', 'one_end_distance', 'none_end_distance', 'rectangle_nocorner', 'rectangle_diffI_closed', 'rectangle_diffI_nocorner', 'both_ends_two_sides', 'one_end_from_segments', 'none_end_from_segments', 'multi_segment_dedup', 'loop_closed', 'loop_closed', 'loop_closed', 'loop_closed', 'both_ends_distance', 'both_ends_distance', 'one_end_from_segments', 'both_ends_two_intervals', 'both_ends_compare', 'multi_segment', 'rectangle', 'rectangle', 'one_end_rnd']
+
+Q1: 在一正方形花池的4周栽了44棵柳树,每两棵柳树之间的间隔是20米,这个正方形的周长是多少米?
+[hook] 跳过 tree_relation 连边：当前模式 loop_closed → op = CUSTOM
+====last_map: {'Length': 'Length_a6db', 'TreeCnt': 'TreeCnt_5720', 'Interval': 'Interval_1ab4', 'SegmentCnt': 'SegmentCnt_6696'}
+[hook] 跳过 tree_relation 连边：当前模式 loop_closed → op = CUSTOM
+====last_map: {'Length': 'Length_a6db', 'TreeCnt': 'TreeCnt_5720', 'Interval': 'Interval_1ab4', 'SegmentCnt': 'SegmentCnt_6696'}
+构建的图： [('Length_a6db', {'type': 'Length', 'value': None}), ('TreeCnt_5720', {'type': 'TreeCnt', 'value': 44}), ('Interval_1ab4', {'type': 'Interval', 'value': 20}), ('SegmentCnt_6696', {'type': 'SegmentCnt', 'value': None})] [('Length_a6db', 'Interval_1ab4', {'type': 'divides', 'op': None})]
+图模式： tree loop_closed
+匹配到子图模板：Tree_loop_length，映射：{'Y': 'Length_a6db', 'X': 'Interval_1ab4', 'Z': 'TreeCnt_5720'}（已按 target 优选）
+【代入后方程】 Eq(Y, 880)
+求解结果：[{Y: 880}]
+-----> {'Y': 880}
+数据集中标记的答案: 880
+
+Q2: 镇海雅乐学校二年级的小朋友到一条小路的一边植树.小朋友们每隔2米种一棵树(马路两头都种了树),最后发现一共种了11棵,这条小路长多少米.
+====last_map: {'Interval': 'Interval_ea38', 'Length': 'Length_65c6', 'TreeCnt': 'TreeCnt_d69b', 'SegmentCnt': 'SegmentCnt_6ca7'}
+====last_map: {'Interval': 'Interval_ea38', 'Length': 'Length_65c6', 'TreeCnt': 'TreeCnt_d69b', 'SegmentCnt': 'SegmentCnt_6ca7'}
+构建的图： [('Interval_ea38', {'type': 'Interval', 'value': 2}), ('Length_65c6', {'type': 'Length', 'value': None}), ('TreeCnt_d69b', {'type': 'TreeCnt', 'value': 11}), ('SegmentCnt_6ca7', {'type': 'SegmentCnt', 'value': None})] [('Length_65c6', 'Interval_ea38', {'type': 'divides', 'op': None}), ('SegmentCnt_6ca7', 'TreeCnt_d69b', {'type': 'tree_relation', 'op': 'PLUS1'})]
+图模式： tree both_ends_quantity
+匹配到子图模板：Tree_both，映射：{'Y': 'Length_65c6', 'X': 'Interval_ea38', 'N': 'SegmentCnt_6ca7', 'Z': 'TreeCnt_d69b'}（已按 target 优选）
+【代入后方程】 Eq(N, Y/2) ; Eq(11, N + 1)
+求解结果：[{N: 10, Y: 20}]
+-----> {'N': 10, 'Y': 20}
+数据集中标记的答案: 20
+
+Q3: 工人叔叔在公路的一侧从头到尾每隔80米立一根电线杆,刚好立了9根.你知道这段公路长多少米?
+====last_map: {'Interval': 'Interval_1533', 'Length': 'Length_b9cf', 'TreeCnt': 'TreeCnt_522a', 'SegmentCnt': 'SegmentCnt_f63b'}
+====last_map: {'Interval': 'Interval_1533', 'Length': 'Length_b9cf', 'TreeCnt': 'TreeCnt_522a', 'SegmentCnt': 'SegmentCnt_f63b'}
+构建的图： [('Interval_1533', {'type': 'Interval', 'value': 80}), ('Length_b9cf', {'type': 'Length', 'value': None}), ('TreeCnt_522a', {'type': 'TreeCnt', 'value': 9}), ('SegmentCnt_f63b', {'type': 'SegmentCnt', 'value': None})] [('Length_b9cf', 'Interval_1533', {'type': 'divides', 'op': None}), ('SegmentCnt_f63b', 'TreeCnt_522a', {'type': 'tree_relation', 'op': 'PLUS1'})]
+图模式： tree both_ends_quantity
+匹配到子图模板：Tree_both，映射：{'Y': 'Length_b9cf', 'X': 'Interval_1533', 'N': 'SegmentCnt_f63b', 'Z': 'TreeCnt_522a'}（已按 target 优选）
+【代入后方程】 Eq(N, Y/80) ; Eq(9, N + 1)
+求解结果：[{N: 8, Y: 640}]
+-----> {'N': 8, 'Y': 640}
+数据集中标记的答案: 640
+
+Q4: 大庆路上每隔40米就有一盏路灯,吴婷从某一盏路灯开始沿大庆路出发,她走了360米以后停在一盏路灯下,她停在第多少盏路灯下.
+[hook] 跳过 tree_relation 连边：当前模式  → op = None
+====last_map: {'Interval': 'Interval_e254', 'TreeCnt': 'TreeCnt_cfa7', 'SegmentCnt': 'SegmentCnt_29d7'}
+[hook] 跳过 tree_relation 连边：当前模式  → op = None
+====last_map: {'Interval': 'Interval_e254', 'TreeCnt': 'TreeCnt_cfa7', 'SegmentCnt': 'SegmentCnt_29d7'}
+构建的图： [('Interval_e254', {'type': 'Interval', 'value': 40}), ('TreeCnt_cfa7', {'type': 'TreeCnt', 'value': None}), ('SegmentCnt_29d7', {'type': 'SegmentCnt', 'value': None})] []
+图模式： tree None
+-----> 无子图匹配
+数据集中标记的答案: 10
+
+Q5: 马路的一边原来每隔14米装一支木电杆,共装了56支,现在换成水泥电杆,每隔35米装一根即可,只装多少根就行.
+[hook] 跳过 tree_relation 连边：当前模式 both_ends_compare → op = DIFF
+[hook] both_ends_compare: 去重并补齐 Y–X1 / Y–X2 divides
+====last_map: {'Interval': 'Interval2_5128', 'Interval1': 'Interval1_b21d', 'Interval2': 'Interval2_5128', 'TreeCnt': 'TreeCnt_1e6a', 'SegmentCnt': 'SegmentCnt_0937'}
+[hook] 跳过 tree_relation 连边：当前模式 both_ends_compare → op = DIFF
+[hook] both_ends_compare: 去重并补齐 Y–X1 / Y–X2 divides
+====last_map: {'Interval': 'Interval2_5128', 'Interval1': 'Interval1_b21d', 'Interval2': 'Interval2_5128', 'TreeCnt': 'TreeCnt_1e6a', 'SegmentCnt': 'SegmentCnt_0937'}
+构建的图： [('Interval1_b21d', {'type': 'Interval1', 'value': 14}), ('Interval2_5128', {'type': 'Interval2', 'value': 35}), ('TreeCnt_1e6a', {'type': 'TreeCnt', 'value': 56}), ('SegmentCnt_0937', {'type': 'SegmentCnt', 'value': None})] []
+图模式： tree both_ends_compare
+-----> 无子图匹配
+数据集中标记的答案: 23
+
+Q6: 有58辆彩车排成一列,每辆彩车长4米,彩车之间相隔5米,这列彩车队共长多少米?
+[hook] 检测到多段，覆盖模式为 multi_segment，并移除误连 tree_relation
+[hook] 跳过 tree_relation 连边：当前模式 multi_segment → op = MERGE
+[hook] multi_segment: Length/Interval 分段重命名完成
+[hook] multi_segment: 添加 divides (Length1, Interval1)
+====last_map: {'Length': 'Length_bc7a', 'Interval': 'Interval_b2c6', 'TreeCnt': 'TreeCnt_49ff', 'SegmentCnt': 'SegmentCnt_a227'}
+[hook] 跳过 tree_relation 连边：当前模式 multi_segment → op = MERGE
+[hook] multi_segment: Length/Interval 分段重命名完成
+====last_map: {'Length': 'Length_bc7a', 'Interval': 'Interval_b2c6', 'TreeCnt': 'TreeCnt_49ff', 'SegmentCnt': 'SegmentCnt_a227'}
+构建的图： [('Length_81ac', {'type': 'Length1', 'value': 4}), ('Interval_b2c6', {'type': 'Interval1', 'value': 5}), ('Length_bc7a', {'type': 'Length2', 'value': None}), ('TreeCnt_49ff', {'type': 'TreeCnt', 'value': 58}), ('SegmentCnt_a227', {'type': 'SegmentCnt', 'value': None})] [('Length_81ac', 'Interval_b2c6', {'type': 'divides', 'op': None}), ('Length_bc7a', 'Interval_b2c6', {'type': 'divides', 'op': None}), ('Length_bc7a', 'Interval_b2c6', {'type': 'divides', 'op': None})]
+图模式： tree multi_segment
+-----> 无子图匹配
+数据集中标记的答案: 517
+
+Q7: 学校举行动手能力大赛,其中有一项给绳子打结的比赛,在一条长20米的绳子上,每隔2米打一个结,两端不打结,一共应打多少个结.
+====last_map: {'Length': 'Length_c000', 'Interval': 'Interval_b7ca', 'TreeCnt': 'TreeCnt_6dad', 'SegmentCnt': 'SegmentCnt_a76f'}
+====last_map: {'Length': 'Length_c000', 'Interval': 'Interval_b7ca', 'TreeCnt': 'TreeCnt_6dad', 'SegmentCnt': 'SegmentCnt_a76f'}
+构建的图： [('Length_c000', {'type': 'Length', 'value': 20}), ('Interval_b7ca', {'type': 'Interval', 'value': 2}), ('TreeCnt_6dad', {'type': 'TreeCnt', 'value': None}), ('SegmentCnt_a76f', {'type': 'SegmentCnt', 'value': None})] [('Length_c000', 'Interval_b7ca', {'type': 'divides', 'op': None}), ('SegmentCnt_a76f', 'TreeCnt_6dad', {'type': 'tree_relation', 'op': 'PLUS1'})]
+图模式： tree both_ends_quantity
+匹配到子图模板：Tree_both，映射：{'Y': 'Length_c000', 'X': 'Interval_b7ca', 'N': 'SegmentCnt_a76f', 'Z': 'TreeCnt_6dad'}（已按 target 优选）
+【代入后方程】 Eq(N, 10) ; Eq(Z, N + 1)
+求解结果：[{N: 10, Z: 11}]
+-----> {'N': 10, 'Z': 11}
+数据集中标记的答案: 9
+
+Q8: 一条马路长120米,从一头开始种树苗,每隔8米栽一棵,一共栽多少棵树?
+====last_map: {'Length': 'Length_9811', 'Interval': 'Interval_21f0', 'TreeCnt': 'TreeCnt_4778', 'SegmentCnt': 'SegmentCnt_8eb4'}
+====last_map: {'Length': 'Length_9811', 'Interval': 'Interval_21f0', 'TreeCnt': 'TreeCnt_4778', 'SegmentCnt': 'SegmentCnt_8eb4'}
+构建的图： [('Length_9811', {'type': 'Length', 'value': 120}), ('Interval_21f0', {'type': 'Interval', 'value': 8}), ('TreeCnt_4778', {'type': 'TreeCnt', 'value': None}), ('SegmentCnt_8eb4', {'type': 'SegmentCnt', 'value': None})] [('Length_9811', 'Interval_21f0', {'type': 'divides', 'op': None}), ('SegmentCnt_8eb4', 'TreeCnt_4778', {'type': 'tree_relation', 'op': 'PLUS1'})]
+图模式： tree both_ends_quantity
+匹配到子图模板：Tree_both，映射：{'Y': 'Length_9811', 'X': 'Interval_21f0', 'N': 'SegmentCnt_8eb4', 'Z': 'TreeCnt_4778'}（已按 target 优选）
+【代入后方程】 Eq(N, 15) ; Eq(Z, N + 1)
+求解结果：[{N: 15, Z: 16}]
+-----> {'N': 15, 'Z': 16}
+数据集中标记的答案: 16
+
+Q9: 在一个周长是42米的圆形花园周围,每隔2米放一盆花,一共可放多少盆花?
+[hook] 跳过 tree_relation 连边：当前模式 loop_closed → op = CUSTOM
+====last_map: {'Interval': 'Interval_711a', 'TreeCnt': 'TreeCnt_8690', 'Length': 'Length_ba11', 'SegmentCnt': 'SegmentCnt_0a04'}
+[hook] 跳过 tree_relation 连边：当前模式 loop_closed → op = CUSTOM
+====last_map: {'Interval': 'Interval_711a', 'TreeCnt': 'TreeCnt_8690', 'Length': 'Length_ba11', 'SegmentCnt': 'SegmentCnt_0a04'}
+构建的图： [('Interval_711a', {'type': 'Interval', 'value': 2}), ('TreeCnt_8690', {'type': 'TreeCnt', 'value': None}), ('Length_ba11', {'type': 'Length', 'value': 42}), ('SegmentCnt_0a04', {'type': 'SegmentCnt', 'value': None})] [('Length_ba11', 'Interval_711a', {'type': 'divides', 'op': None})]
+图模式： tree loop_closed
+匹配到子图模板：Tree_loop_length，映射：{'Y': 'Length_ba11', 'X': 'Interval_711a', 'Z': 'TreeCnt_8690'}（已按 target 优选）
+【代入后方程】 Eq(42, 2*Z)
+求解结果：[{Z: 21}]
+-----> {'Z': 21}
+数据集中标记的答案: 21
+
+Q10: 运动会上4年(2)班48名运动员出场时,排成4列纵队,前后相邻两人间隔为1米,每列队伍长多少米.
+====last_map: {'Length': 'Length_7f6c', 'Interval': 'Interval_df97', 'TreeCnt': 'TreeCnt_f7b4', 'SegmentCnt': 'SegmentCnt_435e'}
+====last_map: {'Length': 'Length_7f6c', 'Interval': 'Interval_df97', 'TreeCnt': 'TreeCnt_f7b4', 'SegmentCnt': 'SegmentCnt_435e'}
+构建的图： [('Length_7f6c', {'type': 'Length', 'value': None}), ('Interval_df97', {'type': 'Interval', 'value': 1}), ('TreeCnt_f7b4', {'type': 'TreeCnt', 'value': 12}), ('SegmentCnt_435e', {'type': 'SegmentCnt', 'value': None})] [('Length_7f6c', 'Interval_df97', {'type': 'divides', 'op': None}), ('SegmentCnt_435e', 'TreeCnt_f7b4', {'type': 'tree_relation', 'op': 'PLUS1'})]
+图模式： tree both_ends_quantity
+匹配到子图模板：Tree_both，映射：{'Y': 'Length_7f6c', 'X': 'Interval_df97', 'N': 'SegmentCnt_435e', 'Z': 'TreeCnt_f7b4'}（已按 target 优选）
+【代入后方程】 Eq(N, Y) ; Eq(12, N + 1)
+求解结果：[{N: 11, Y: 11}]
+-----> {'N': 11, 'Y': 11}
+数据集中标记的答案: 11
+
+Q11: 同学们沿笔直的操场一侧插彩旗,每隔4米插一面,一共插了26面,从第1面彩旗到最后一面的距离有多少米.
+[hook] 跳过 tree_relation 连边：当前模式 loop_closed → op = CUSTOM
+====last_map: {'Interval': 'Interval_1479', 'Length': 'Length_00d0', 'TreeCnt': 'TreeCnt_07ad', 'SegmentCnt': 'SegmentCnt_8961'}
+[hook] 跳过 tree_relation 连边：当前模式 loop_closed → op = CUSTOM
+====last_map: {'Interval': 'Interval_1479', 'Length': 'Length_00d0', 'TreeCnt': 'TreeCnt_07ad', 'SegmentCnt': 'SegmentCnt_8961'}
+构建的图： [('Interval_1479', {'type': 'Interval', 'value': 4}), ('Length_00d0', {'type': 'Length', 'value': None}), ('TreeCnt_07ad', {'type': 'TreeCnt', 'value': 26}), ('SegmentCnt_8961', {'type': 'SegmentCnt', 'value': None})] [('Length_00d0', 'Interval_1479', {'type': 'divides', 'op': None})]
+图模式： tree loop_closed
+匹配到子图模板：Tree_loop_length，映射：{'Y': 'Length_00d0', 'X': 'Interval_1479', 'Z': 'TreeCnt_07ad'}（已按 target 优选）
+【代入后方程】 Eq(Y, 104)
+求解结果：[{Y: 104}]
+-----> {'Y': 104}
+数据集中标记的答案: 100
+
+Q12: 在圆形操场的4周每隔3米插上彩旗,共插上80面,这个圆形操场的周长=多少米.
+[hook] 跳过 tree_relation 连边：当前模式 loop_closed → op = CUSTOM
+====last_map: {'Interval': 'Interval_6442', 'Length': 'Length_c6d3', 'TreeCnt': 'TreeCnt_9273', 'SegmentCnt': 'SegmentCnt_287f'}
+[hook] 跳过 tree_relation 连边：当前模式 loop_closed → op = CUSTOM
+====last_map: {'Interval': 'Interval_6442', 'Length': 'Length_c6d3', 'TreeCnt': 'TreeCnt_9273', 'SegmentCnt': 'SegmentCnt_287f'}
+构建的图： [('Interval_6442', {'type': 'Interval', 'value': 3}), ('Length_c6d3', {'type': 'Length', 'value': None}), ('TreeCnt_9273', {'type': 'TreeCnt', 'value': 80}), ('SegmentCnt_287f', {'type': 'SegmentCnt', 'value': None})] [('Length_c6d3', 'Interval_6442', {'type': 'divides', 'op': None})]
+图模式： tree loop_closed
+匹配到子图模板：Tree_loop_length，映射：{'Y': 'Length_c6d3', 'X': 'Interval_6442', 'Z': 'TreeCnt_9273'}（已按 target 优选）
+【代入后方程】 Eq(Y, 240)
+求解结果：[{Y: 240}]
+-----> {'Y': 240}
+数据集中标记的答案: 240
+
+Q13: 在一段公路上,从起点到终点每隔5千米设一块指示牌.这段路上共有6块指示牌.这段路总长多少千米?
+[hook] 跳过 tree_relation 连边：当前模式 loop_closed → op = CUSTOM
+====last_map: {'TreeCnt': 'TreeCnt_603d', 'Interval': 'Interval_50ce', 'SegmentCnt': 'SegmentCnt_745b'}
+[hook] 跳过 tree_relation 连边：当前模式 loop_closed → op = CUSTOM
+====last_map: {'TreeCnt': 'TreeCnt_603d', 'Interval': 'Interval_50ce', 'SegmentCnt': 'SegmentCnt_745b'}
+构建的图： [('TreeCnt_603d', {'type': 'TreeCnt', 'value': 6}), ('Interval_50ce', {'type': 'Interval', 'value': 5}), ('SegmentCnt_745b', {'type': 'SegmentCnt', 'value': None})] []图模式： tree loop_closed
+-----> 无子图匹配
+数据集中标记的答案: 25
+
+Q14: 有一些同学站成一行,间隔2米.王强前面有4人,后面有5人,这条队伍长多少.
+====last_map: {'Interval': 'Interval_ef3f', 'SegmentCnt': 'SegmentCnt_044c', 'TreeCnt': 'TreeCnt_456c'}
+====last_map: {'Interval': 'Interval_ef3f', 'SegmentCnt': 'SegmentCnt_044c', 'TreeCnt': 'TreeCnt_456c'}
+构建的图： [('Interval_ef3f', {'type': 'Interval', 'value': 2}), ('SegmentCnt_044c', {'type': 'SegmentCnt', 'value': None}), ('TreeCnt_456c', {'type': 'TreeCnt', 'value': None})] [('SegmentCnt_044c', 'TreeCnt_456c', {'type': 'tree_relation', 'op': 'PLUS1'})]
+图模式： tree both_ends_quantity
+-----> 无子图匹配
+数据集中标记的答案: 18
+
+Q15: 两座楼房之间相隔60米,每隔3米栽一棵玉兰花(栽一排,两端都不栽),共栽了多少棵.
+[hook] 跳过 tree_relation 连边：当前模式  → op = None
+====last_map: {'Interval': 'Interval_43ac', 'TreeCnt': 'TreeCnt_96dd', 'Length': 'Length_7816', 'SegmentCnt': 'SegmentCnt_f7be'}
+[hook] 跳过 tree_relation 连边：当前模式  → op = None
+====last_map: {'Interval': 'Interval_43ac', 'TreeCnt': 'TreeCnt_96dd', 'Length': 'Length_7816', 'SegmentCnt': 'SegmentCnt_f7be'}
+构建的图： [('Interval_2b56', {'type': 'Interval', 'value': 60}), ('Interval_43ac', {'type': 'Interval', 'value': 3}), ('TreeCnt_96dd', {'type': 'TreeCnt', 'value': None}), ('Length_7816', {'type': 'Length', 'value': None}), ('SegmentCnt_f7be', {'type': 'SegmentCnt', 'value': None})] [('Length_7816', 'Interval_43ac', {'type': 'divides', 'op': None})]    
+图模式： tree None
+-----> 无子图匹配
+数据集中标记的答案: 19
+
+Q16: 一个圆形水池周围每隔2米栽一棵杨树,共栽了40棵,水池的周长=多少米.
+[hook] 跳过 tree_relation 连边：当前模式 loop_closed → op = CUSTOM
+====last_map: {'Interval': 'Interval_34c8', 'Length': 'Length_7b9c', 'TreeCnt': 'TreeCnt_9171', 'SegmentCnt': 'SegmentCnt_3889'}
+[hook] 跳过 tree_relation 连边：当前模式 loop_closed → op = CUSTOM
+====last_map: {'Interval': 'Interval_34c8', 'Length': 'Length_7b9c', 'TreeCnt': 'TreeCnt_9171', 'SegmentCnt': 'SegmentCnt_3889'}
+构建的图： [('Interval_34c8', {'type': 'Interval', 'value': 2}), ('Length_7b9c', {'type': 'Length', 'value': None}), ('TreeCnt_9171', {'type': 'TreeCnt', 'value': 40}), ('SegmentCnt_3889', {'type': 'SegmentCnt', 'value': None})] [('Length_7b9c', 'Interval_34c8', {'type': 'divides', 'op': None})]
+图模式： tree loop_closed
+匹配到子图模板：Tree_loop_length，映射：{'Y': 'Length_7b9c', 'X': 'Interval_34c8', 'Z': 'TreeCnt_9171'}（已按 target 优选）
+【代入后方程】 Eq(Y, 80)
+求解结果：[{Y: 80}]
+-----> {'Y': 80}
+数据集中标记的答案: 80
+
+Q17: 篮球场长28米,宽16米,每隔2米摆一盆花(4个角都要摆).一共要摆多少盆花?
+====last_map: {'Length': 'Length_af95', 'Width': 'Width_b9c6', 'Interval': 'Interval_dc00', 'TreeCnt': 'TreeCnt_dfef', 'SegmentCnt': 'SegmentCnt_fab6'}
+====last_map: {'Length': 'Length_af95', 'Width': 'Width_b9c6', 'Interval': 'Interval_dc00', 'TreeCnt': 'TreeCnt_dfef', 'SegmentCnt': 'SegmentCnt_fab6'}
+构建的图： [('Length_af95', {'type': 'Length', 'value': 28}), ('Width_b9c6', {'type': 'Width', 'value': 16.0}), ('Interval_dc00', {'type': 'Interval', 'value': 2}), ('TreeCnt_dfef', {'type': 'TreeCnt', 'value': None}), ('SegmentCnt_fab6', {'type': 'SegmentCnt', 'value': None})] [('Length_af95', 'Interval_dc00', {'type': 'divides', 'op': None}), ('SegmentCnt_fab6', 'TreeCnt_dfef', {'type': 'tree_relation', 'op': 'PLUS1'})]
+图模式： tree both_ends_quantity
+匹配到子图模板：Tree_both，映射：{'Y': 'Length_af95', 'X': 'Interval_dc00', 'N': 'SegmentCnt_fab6', 'Z': 'TreeCnt_dfef'}（已按 target 优选）
+【代入后方程】 Eq(N, 14) ; Eq(Z, N + 1)
+求解结果：[{N: 14, Z: 15}]
+-----> {'N': 14, 'Z': 15}
+数据集中标记的答案: 44
+
+Q18: 在20米的校园小道一边种柳树,每隔4米种一棵,两端都种,一共要种几棵树?
+====last_map: {'Interval': 'Interval_06cf', 'TreeCnt': 'TreeCnt_54cc', 'Length': 'Length_e330', 'SegmentCnt': 'SegmentCnt_601e'}
+====last_map: {'Interval': 'Interval_06cf', 'TreeCnt': 'TreeCnt_54cc', 'Length': 'Length_e330', 'SegmentCnt': 'SegmentCnt_601e'}
+构建的图： [('Interval_06cf', {'type': 'Interval', 'value': 4}), ('TreeCnt_54cc', {'type': 'TreeCnt', 'value': None}), ('Length_e330', {'type': 'Length', 'value': 20}), ('SegmentCnt_601e', {'type': 'SegmentCnt', 'value': None})] [('Length_e330', 'Interval_06cf', {'type': 'divides', 'op': None}), ('SegmentCnt_601e', 'TreeCnt_54cc', {'type': 'tree_relation', 'op': 'PLUS1'})]
+图模式： tree both_ends_quantity
+匹配到子图模板：Tree_both，映射：{'Y': 'Length_e330', 'X': 'Interval_06cf', 'N': 'SegmentCnt_601e', 'Z': 'TreeCnt_54cc'}（已按 target 优选）
+【代入后方程】 Eq(N, 5) ; Eq(Z, N + 1)
+求解结果：[{N: 5, Z: 6}]
+-----> {'N': 5, 'Z': 6}
+数据集中标记的答案: 6
+
+Q19: 同学们到河的一边种树,河岸长64米,每隔4米种一棵树,两端都不种,共需要多少棵树?
+====last_map: {'Length': 'Length_29fb', 'Interval': 'Interval_7fd1', 'TreeCnt': 'TreeCnt_641f', 'SegmentCnt': 'SegmentCnt_f60d'}
+====last_map: {'Length': 'Length_29fb', 'Interval': 'Interval_7fd1', 'TreeCnt': 'TreeCnt_641f', 'SegmentCnt': 'SegmentCnt_f60d'}
+构建的图： [('Length_29fb', {'type': 'Length', 'value': 64}), ('Interval_7fd1', {'type': 'Interval', 'value': 4}), ('TreeCnt_641f', {'type': 'TreeCnt', 'value': None}), ('SegmentCnt_f60d', {'type': 'SegmentCnt', 'value': None})] [('Length_29fb', 'Interval_7fd1', {'type': 'divides', 'op': None}), ('SegmentCnt_f60d', 'TreeCnt_641f', {'type': 'tree_relation', 'op': 'PLUS1'})]
+图模式： tree both_ends_quantity
+匹配到子图模板：Tree_both，映射：{'Y': 'Length_29fb', 'X': 'Interval_7fd1', 'N': 'SegmentCnt_f60d', 'Z': 'TreeCnt_641f'}（已按 target 优选）
+【代入后方程】 Eq(N, 16) ; Eq(Z, N + 1)
+求解结果：[{N: 16, Z: 17}]
+-----> {'N': 16, 'Z': 17}
+数据集中标记的答案: 15
+
+Q20: 40位小朋友站成人数相等的两列做操,每相邻两位小朋友相隔2米,做操的队伍长多少米.
+====last_map: {'Interval': 'Interval_c396', 'Length': 'Length_cff5', 'SegmentCnt': 'SegmentCnt_4cbd', 'TreeCnt': 'TreeCnt_5d6f'}
+====last_map: {'Interval': 'Interval_c396', 'Length': 'Length_cff5', 'SegmentCnt': 'SegmentCnt_4cbd', 'TreeCnt': 'TreeCnt_5d6f'}
+构建的图： [('Interval_c396', {'type': 'Interval', 'value': 2}), ('Length_cff5', {'type': 'Length', 'value': None}), ('SegmentCnt_4cbd', {'type': 'SegmentCnt', 'value': None}), ('TreeCnt_5d6f', {'type': 'TreeCnt', 'value': None})] [('Length_cff5', 'Interval_c396', {'type': 'divides', 'op': None}), ('SegmentCnt_4cbd', 'TreeCnt_5d6f', {'type': 'tree_relation', 'op': 'PLUS1'})]
+图模式： tree both_ends_quantity
+匹配到子图模板：Tree_both，映射：{'Y': 'Length_cff5', 'X': 'Interval_c396', 'N': 'SegmentCnt_4cbd', 'Z': 'TreeCnt_5d6f'}（已按 target 优选）
+【代入后方程】 Eq(N, Y/2) ; Eq(Z, N + 1)
+求解结果：[{N: Z - 1, Y: 2*Z - 2}]
+-----> {'N': Z - 1, 'Y': 2*Z - 2}
+数据集中标记的答案: 38
+
+Q21: 在一个环形跑道上每隔4米插上一面红旗,共插了100面,这个跑道的一周有多少米?
+[hook] 跳过 tree_relation 连边：当前模式 loop_closed → op = CUSTOM
+====last_map: {'Interval': 'Interval_620c', 'Length': 'Length_34db', 'TreeCnt': 'TreeCnt_aa96', 'SegmentCnt': 'SegmentCnt_a175'}
+[hook] 跳过 tree_relation 连边：当前模式 loop_closed → op = CUSTOM
+====last_map: {'Interval': 'Interval_620c', 'Length': 'Length_34db', 'TreeCnt': 'TreeCnt_aa96', 'SegmentCnt': 'SegmentCnt_a175'}
+构建的图： [('Interval_620c', {'type': 'Interval', 'value': 4}), ('Length_34db', {'type': 'Length', 'value': None}), ('TreeCnt_aa96', {'type': 'TreeCnt', 'value': 100}), ('SegmentCnt_a175', {'type': 'SegmentCnt', 'value': None})] [('Length_34db', 'Interval_620c', {'type': 'divides', 'op': None})]
+图模式： tree loop_closed
+匹配到子图模板：Tree_loop_length，映射：{'Y': 'Length_34db', 'X': 'Interval_620c', 'Z': 'TreeCnt_aa96'}（已按 target 优选）
+【代入后方程】 Eq(Y, 400)
+求解结果：[{Y: 400}]
+-----> {'Y': 400}
+数据集中标记的答案: 400
+
+Q22: 一个圆形池塘,它的周长是600米,每隔5米栽种一棵柳树,需要树苗多少株?
+[hook] 跳过 tree_relation 连边：当前模式 loop_closed → op = CUSTOM
+====last_map: {'Interval': 'Interval_e4f6', 'Length': 'Length_da8d', 'TreeCnt': 'TreeCnt_ca5e', 'SegmentCnt': 'SegmentCnt_0afc'}
+[hook] 跳过 tree_relation 连边：当前模式 loop_closed → op = CUSTOM
+====last_map: {'Interval': 'Interval_e4f6', 'Length': 'Length_da8d', 'TreeCnt': 'TreeCnt_ca5e', 'SegmentCnt': 'SegmentCnt_0afc'}
+构建的图： [('Interval_e4f6', {'type': 'Interval', 'value': 5}), ('Length_da8d', {'type': 'Length', 'value': 600}), ('TreeCnt_ca5e', {'type': 'TreeCnt', 'value': None}), ('SegmentCnt_0afc', {'type': 'SegmentCnt', 'value': None})] [('Length_da8d', 'Interval_e4f6', {'type': 'divides', 'op': None})]
+图模式： tree loop_closed
+匹配到子图模板：Tree_loop_length，映射：{'Y': 'Length_da8d', 'X': 'Interval_e4f6', 'Z': 'TreeCnt_ca5e'}（已按 target 优选）
+【代入后方程】 Eq(600, 5*Z)
+求解结果：[{Z: 120}]
+-----> {'Z': 120}
+数据集中标记的答案: 120
+
+Q23: 一辆电车从起点到终点一共要行36千米,如果每隔3千米停靠站一次,那么从起点到终点,一共要停靠多少次.
+[hook] 跳过 tree_relation 连边：当前模式  → op = None
+====last_map: {'TreeCnt': 'TreeCnt_e502', 'Interval': 'Interval_200b', 'SegmentCnt': 'SegmentCnt_488b'}
+[hook] 跳过 tree_relation 连边：当前模式  → op = None
+====last_map: {'TreeCnt': 'TreeCnt_e502', 'Interval': 'Interval_200b', 'SegmentCnt': 'SegmentCnt_488b'}
+构建的图： [('TreeCnt_e502', {'type': 'TreeCnt', 'value': None}), ('Interval_200b', {'type': 'Interval', 'value': 3}), ('SegmentCnt_488b', {'type': 'SegmentCnt', 'value': None})] []
+图模式： tree None
+-----> 无子图匹配
+数据集中标记的答案: 12
+
+Q24: 在一条公路的一侧插红旗.每隔5米插一面,且两端都不插,一共需要红旗100面,这条路全长多少米?
+====last_map: {'Interval': 'Interval_47e7', 'Length': 'Length_9150', 'TreeCnt': 'TreeCnt_feb6', 'SegmentCnt': 'SegmentCnt_cb82'}
+====last_map: {'Interval': 'Interval_47e7', 'Length': 'Length_9150', 'TreeCnt': 'TreeCnt_feb6', 'SegmentCnt': 'SegmentCnt_cb82'}
+构建的图： [('Interval_47e7', {'type': 'Interval', 'value': 5}), ('Length_9150', {'type': 'Length', 'value': None}), ('TreeCnt_feb6', {'type': 'TreeCnt', 'value': 100}), ('SegmentCnt_cb82', {'type': 'SegmentCnt', 'value': None})] [('Length_9150', 'Interval_47e7', {'type': 'divides', 'op': None}), ('SegmentCnt_cb82', 'TreeCnt_feb6', {'type': 'tree_relation', 'op': 'PLUS1'})]
+图模式： tree both_ends_quantity
+匹配到子图模板：Tree_both，映射：{'Y': 'Length_9150', 'X': 'Interval_47e7', 'N': 'SegmentCnt_cb82', 'Z': 'TreeCnt_feb6'}（已按 target 优选）
+【代入后方程】 Eq(N, Y/5) ; Eq(100, N + 1)
+求解结果：[{N: 99, Y: 495}]
+-----> {'N': 99, 'Y': 495}
+数据集中标记的答案: 505
+
+Q25: 一次检阅,接受检阅的一列彩车车队共30辆,每辆车长4米,前后两辆车相隔5米.如果车队每秒行驶2米,那么这列车队要通过535米长的检阅场地,需要多少时间?
+[hook] 检测到多段，覆盖模式为 multi_segment，并移除误连 tree_relation
+[hook] 跳过 tree_relation 连边：当前模式 multi_segment → op = MERGE
+[hook] multi_segment: Length/Interval 分段重命名完成
+[hook] multi_segment: 添加 divides (Length1, Interval1)
+====last_map: {'Length': 'Length_42a3', 'Interval': 'Interval_e4ca', 'SegmentCnt': 'SegmentCnt_e655', 'TreeCnt': 'TreeCnt_bc2e'}
+[hook] 跳过 tree_relation 连边：当前模式 multi_segment → op = MERGE
+[hook] multi_segment: Length/Interval 分段重命名完成
+====last_map: {'Length': 'Length_42a3', 'Interval': 'Interval_e4ca', 'SegmentCnt': 'SegmentCnt_e655', 'TreeCnt': 'TreeCnt_bc2e'}
+构建的图： [('Length_0960', {'type': 'Length1', 'value': 4}), ('Interval_e4ca', {'type': 'Interval1', 'value': 5}), ('Length_42a3', {'type': 'Length2', 'value': None}), ('SegmentCnt_e655', {'type': 'SegmentCnt', 'value': None}), ('TreeCnt_bc2e', {'type': 'TreeCnt', 'value': None})] [('Length_0960', 'Interval_e4ca', {'type': 'divides', 'op': None}), ('Length_42a3', 'Interval_e4ca', {'type': 'divides', 'op': None}), ('Length_42a3', 'Interval_e4ca', {'type': 'divides', 'op': None})]
+图模式： tree multi_segment
+-----> 无子图匹配
+数据集中标记的答案: 400
+
+Q26: 一条马路的一边从头到尾共种了10棵树,每两棵树之间相隔8米,这条马路长多少米?
+====last_map: {'Interval': 'Interval_2b7d', 'Length': 'Length_e648', 'TreeCnt': 'TreeCnt_be86', 'SegmentCnt': 'SegmentCnt_46a3'}
+====last_map: {'Interval': 'Interval_2b7d', 'Length': 'Length_e648', 'TreeCnt': 'TreeCnt_be86', 'SegmentCnt': 'SegmentCnt_46a3'}
+构建的图： [('Interval_2b7d', {'type': 'Interval', 'value': 8}), ('Length_e648', {'type': 'Length', 'value': None}), ('TreeCnt_be86', {'type': 'TreeCnt', 'value': 10}), ('SegmentCnt_46a3', {'type': 'SegmentCnt', 'value': None})] [('Length_e648', 'Interval_2b7d', {'type': 'divides', 'op': None}), ('SegmentCnt_46a3', 'TreeCnt_be86', {'type': 'tree_relation', 'op': 'PLUS1'})]
+图模式： tree both_ends_quantity
+匹配到子图模板：Tree_both，映射：{'Y': 'Length_e648', 'X': 'Interval_2b7d', 'N': 'SegmentCnt_46a3', 'Z': 'TreeCnt_be86'}（已按 target 优选）
+【代入后方程】 Eq(N, Y/8) ; Eq(10, N + 1)
+求解结果：[{N: 9, Y: 72}]
+-----> {'N': 9, 'Y': 72}
+数据集中标记的答案: 72
+
+Q27: 在400米的环形跑道4周每隔5米插一面彩旗,需要多少面彩旗?
+[hook] 跳过 tree_relation 连边：当前模式 loop_closed → op = CUSTOM
+====last_map: {'Interval': 'Interval_e5e5', 'TreeCnt': 'TreeCnt_8417', 'Length': 'Length_a234', 'SegmentCnt': 'SegmentCnt_cf0e'}
+[hook] 跳过 tree_relation 连边：当前模式 loop_closed → op = CUSTOM
+====last_map: {'Interval': 'Interval_e5e5', 'TreeCnt': 'TreeCnt_8417', 'Length': 'Length_a234', 'SegmentCnt': 'SegmentCnt_cf0e'}
+构建的图： [('Interval_e5e5', {'type': 'Interval', 'value': 5}), ('TreeCnt_8417', {'type': 'TreeCnt', 'value': None}), ('Length_a234', {'type': 'Length', 'value': 400}), ('SegmentCnt_cf0e', {'type': 'SegmentCnt', 'value': None})] [('Length_a234', 'Interval_e5e5', {'type': 'divides', 'op': None})]
+图模式： tree loop_closed
+匹配到子图模板：Tree_Loop_Closed，映射：{'L': 'Length_a234', 'I': 'Interval_e5e5', 'Z': 'TreeCnt_8417'}（已按 target 优选）
+【代入后方程】 Eq(Z, 80)
+求解结果：[{Z: 80}]
+-----> {'Z': 80}
+数据集中标记的答案: 80
+
+Q28: 节日里,要在240米长的城楼上插上彩旗,每隔5米插一面(两端都要插),一共要插多少面?
+[hook] 跳过 tree_relation 连边：当前模式  → op = None
+====last_map: {'Interval': 'Interval_570f', 'TreeCnt': 'TreeCnt_6cec', 'SegmentCnt': 'SegmentCnt_329f'}
+[hook] 跳过 tree_relation 连边：当前模式  → op = None
+====last_map: {'Interval': 'Interval_570f', 'TreeCnt': 'TreeCnt_6cec', 'SegmentCnt': 'SegmentCnt_329f'}
+构建的图： [('Interval_570f', {'type': 'Interval', 'value': 5}), ('TreeCnt_6cec', {'type': 'TreeCnt', 'value': None}), ('SegmentCnt_329f', {'type': 'SegmentCnt', 'value': None})] []
+图模式： tree None
+-----> 无子图匹配
+数据集中标记的答案: 49
+
+Q29: 沿着一个周长是800米的鱼塘的一周,每隔20米栽一棵柳树,一共栽多少棵柳树.
+[hook] 跳过 tree_relation 连边：当前模式 loop_closed → op = CUSTOM
+====last_map: {'Interval': 'Interval_5f31', 'TreeCnt': 'TreeCnt_35ad', 'Length': 'Length_2482', 'SegmentCnt': 'SegmentCnt_487c'}
+[hook] 跳过 tree_relation 连边：当前模式 loop_closed → op = CUSTOM
+====last_map: {'Interval': 'Interval_5f31', 'TreeCnt': 'TreeCnt_35ad', 'Length': 'Length_2482', 'SegmentCnt': 'SegmentCnt_487c'}
+构建的图： [('Interval_5f31', {'type': 'Interval', 'value': 20}), ('TreeCnt_35ad', {'type': 'TreeCnt', 'value': None}), ('Length_2482', {'type': 'Length', 'value': 800}), ('SegmentCnt_487c', {'type': 'SegmentCnt', 'value': None})] [('Length_2482', 'Interval_5f31', {'type': 'divides', 'op': None})]
+图模式： tree loop_closed
+匹配到子图模板：Tree_loop_length，映射：{'Y': 'Length_2482', 'X': 'Interval_5f31', 'Z': 'TreeCnt_35ad'}（已按 target 优选）
+【代入后方程】 Eq(800, 20*Z)
+求解结果：[{Z: 40}]
+-----> {'Z': 40}
+数据集中标记的答案: 40
+
+Q30: 10位小朋友站成一列做操,每相邻两位小朋友相隔2米,做操的队伍长多少米.
+====last_map: {'Interval': 'Interval_345d', 'Length': 'Length_c838', 'SegmentCnt': 'SegmentCnt_e9af', 'TreeCnt': 'TreeCnt_bafe'}
+====last_map: {'Interval': 'Interval_345d', 'Length': 'Length_c838', 'SegmentCnt': 'SegmentCnt_e9af', 'TreeCnt': 'TreeCnt_bafe'}
+构建的图： [('Interval_345d', {'type': 'Interval', 'value': 2}), ('Length_c838', {'type': 'Length', 'value': None}), ('SegmentCnt_e9af', {'type': 'SegmentCnt', 'value': None}), ('TreeCnt_bafe', {'type': 'TreeCnt', 'value': None})] [('Length_c838', 'Interval_345d', {'type': 'divides', 'op': None}), ('SegmentCnt_e9af', 'TreeCnt_bafe', {'type': 'tree_relation', 'op': 'PLUS1'})]
+图模式： tree both_ends_quantity
+匹配到子图模板：Tree_both，映射：{'Y': 'Length_c838', 'X': 'Interval_345d', 'N': 'SegmentCnt_e9af', 'Z': 'TreeCnt_bafe'}（已按 target 优选）
+【代入后方程】 Eq(N, Y/2) ; Eq(Z, N + 1)
+求解结果：[{N: Z - 1, Y: 2*Z - 2}]
+-----> {'N': Z - 1, 'Y': 2*Z - 2}
+数据集中标记的答案: 18
+
+Q31: 在一条长120米的隧道一侧,从头到尾共安装了16盏节能灯(两头都安装),平均每隔多少米安装一盏灯?
+====last_map: {'Length': 'Length_a3c0', 'TreeCnt': 'TreeCnt_8f29', 'Interval': 'Interval_930b', 'SegmentCnt': 'SegmentCnt_e8a3'}
+====last_map: {'Length': 'Length_a3c0', 'TreeCnt': 'TreeCnt_8f29', 'Interval': 'Interval_930b', 'SegmentCnt': 'SegmentCnt_e8a3'}
+构建的图： [('Length_a3c0', {'type': 'Length', 'value': 120}), ('TreeCnt_8f29', {'type': 'TreeCnt', 'value': 16}), ('Interval_930b', {'type': 'Interval', 'value': None}), ('SegmentCnt_e8a3', {'type': 'SegmentCnt', 'value': None})] [('Length_a3c0', 'Interval_930b', {'type': 'divides', 'op': None}), ('SegmentCnt_e8a3', 'TreeCnt_8f29', {'type': 'tree_relation', 'op': 'PLUS1'})]
+图模式： tree both_ends_quantity
+匹配到子图模板：Tree_both，映射：{'Y': 'Length_a3c0', 'X': 'Interval_930b', 'N': 'SegmentCnt_e8a3', 'Z': 'TreeCnt_8f29'}（已按 target 优选）
+【代入后方程】 Eq(N, 120/X) ; Eq(16, N + 1)
+求解结果：[{N: 15, X: 8}]
+-----> {'N': 15, 'X': 8}
+数据集中标记的答案: 8
+
+Q32: 在路的一侧从头至尾栽树,每隔9米栽一棵,共栽了100棵,这条路有多长?
+====last_map: {'Interval': 'Interval_8cbd', 'Length': 'Length_d163', 'TreeCnt': 'TreeCnt_6237', 'SegmentCnt': 'SegmentCnt_e092'}
+====last_map: {'Interval': 'Interval_8cbd', 'Length': 'Length_d163', 'TreeCnt': 'TreeCnt_6237', 'SegmentCnt': 'SegmentCnt_e092'}
+构建的图： [('Interval_8cbd', {'type': 'Interval', 'value': 9}), ('Length_d163', {'type': 'Length', 'value': None}), ('TreeCnt_6237', {'type': 'TreeCnt', 'value': 100}), ('SegmentCnt_e092', {'type': 'SegmentCnt', 'value': None})] [('Length_d163', 'Interval_8cbd', {'type': 'divides', 'op': None}), ('SegmentCnt_e092', 'TreeCnt_6237', {'type': 'tree_relation', 'op': 'PLUS1'})]
+图模式： tree both_ends_quantity
+匹配到子图模板：Tree_both，映射：{'Y': 'Length_d163', 'X': 'Interval_8cbd', 'N': 'SegmentCnt_e092', 'Z': 'TreeCnt_6237'}（已按 target 优选）
+【代入后方程】 Eq(N, Y/9) ; Eq(100, N + 1)
+求解结果：[{N: 99, Y: 891}]
+-----> {'N': 99, 'Y': 891}
+数据集中标记的答案: 891
+
+Q33: 在环形湖路上每隔10米放置1个垃圾桶,共放了30个.环湖长多少米?
+[hook] 跳过 tree_relation 连边：当前模式 loop_closed → op = CUSTOM
+====last_map: {'Interval': 'Interval_cb31', 'Length': 'Length_d885', 'TreeCnt': 'TreeCnt_66fe', 'SegmentCnt': 'SegmentCnt_627c'}
+[hook] 跳过 tree_relation 连边：当前模式 loop_closed → op = CUSTOM
+====last_map: {'Interval': 'Interval_cb31', 'Length': 'Length_d885', 'TreeCnt': 'TreeCnt_66fe', 'SegmentCnt': 'SegmentCnt_627c'}
+构建的图： [('Interval_cb31', {'type': 'Interval', 'value': 10}), ('Length_d885', {'type': 'Length', 'value': None}), ('TreeCnt_c014', {'type': 'TreeCnt', 'value': 30}), ('TreeCnt_66fe', {'type': 'TreeCnt', 'value': 1}), ('SegmentCnt_627c', {'type': 'SegmentCnt', 'value': None})] [('Length_d885', 'Interval_cb31', {'type': 'divides', 'op': None})]        
+图模式： tree loop_closed
+匹配到子图模板：Tree_loop_length，映射：{'Y': 'Length_d885', 'X': 'Interval_cb31', 'Z': 'TreeCnt_66fe'}（已按 target 优选）
+【代入后方程】 Eq(Y, 10)
+求解结果：[{Y: 10}]
+-----> {'Y': 10}
+数据集中标记的答案: 300
+
+Q34: 在40米长的人行道一侧栽树,每隔5米栽一棵,两头都栽,一共可以栽多少棵树?
+====last_map: {'Interval': 'Interval_ab5c', 'TreeCnt': 'TreeCnt_fefc', 'SegmentCnt': 'SegmentCnt_be0a'}
+====last_map: {'Interval': 'Interval_ab5c', 'TreeCnt': 'TreeCnt_fefc', 'SegmentCnt': 'SegmentCnt_be0a'}
+构建的图： [('Interval_ab5c', {'type': 'Interval', 'value': 5}), ('TreeCnt_fefc', {'type': 'TreeCnt', 'value': None}), ('SegmentCnt_be0a', {'type': 'SegmentCnt', 'value': None})] [('SegmentCnt_be0a', 'TreeCnt_fefc', {'type': 'tree_relation', 'op': 'PLUS1'})]
+图模式： tree both_ends_quantity
+-----> 无子图匹配
+数据集中标记的答案: 9
+
+Q35: 在相距200米的两个凉亭之间栽树,每隔25米栽一棵,能栽几棵树?
+[hook] 跳过 tree_relation 连边：当前模式  → op = None
+====last_map: {'Interval': 'Interval_6206', 'TreeCnt': 'TreeCnt_12b9', 'Length': 'Length_c118', 'SegmentCnt': 'SegmentCnt_6fda'}
+[hook] 跳过 tree_relation 连边：当前模式  → op = None
+====last_map: {'Interval': 'Interval_6206', 'TreeCnt': 'TreeCnt_12b9', 'Length': 'Length_c118', 'SegmentCnt': 'SegmentCnt_6fda'}
+构建的图： [('Interval_5c25', {'type': 'Interval', 'value': 25}), ('TreeCnt_12b9', {'type': 'TreeCnt', 'value': None}), ('Length_c118', {'type': 'Length', 'value': None}), ('Interval_6206', {'type': 'Interval', 'value': 200}), ('SegmentCnt_6fda', {'type': 'SegmentCnt', 'value': None})] [('Length_c118', 'Interval_6206', {'type': 'divides', 'op': None})]  
+图模式： tree None
+-----> 无子图匹配
+数据集中标记的答案: 7
+
+Q36: 4(1)班学生在全长100米的跑道上每隔10米摆一盆花(两端要摆),一共需要多少盆花.
+====last_map: {'Length': 'Length_b35e', 'Interval': 'Interval_3f14', 'TreeCnt': 'TreeCnt_12ca', 'SegmentCnt': 'SegmentCnt_4db3'}
+====last_map: {'Length': 'Length_b35e', 'Interval': 'Interval_3f14', 'TreeCnt': 'TreeCnt_12ca', 'SegmentCnt': 'SegmentCnt_4db3'}
+构建的图： [('Length_b35e', {'type': 'Length', 'value': 100}), ('Interval_3f14', {'type': 'Interval', 'value': 10}), ('TreeCnt_12ca', {'type': 'TreeCnt', 'value': None}), ('SegmentCnt_4db3', {'type': 'SegmentCnt', 'value': None})] [('Length_b35e', 'Interval_3f14', {'type': 'divides', 'op': None}), ('SegmentCnt_4db3', 'TreeCnt_12ca', {'type': 'tree_relation', 'op': 'PLUS1'})]
+图模式： tree both_ends_quantity
+匹配到子图模板：Tree_both，映射：{'Y': 'Length_b35e', 'X': 'Interval_3f14', 'N': 'SegmentCnt_4db3', 'Z': 'TreeCnt_12ca'}（已按 target 优选）
+【代入后方程】 Eq(N, 10) ; Eq(Z, N + 1)
+求解结果：[{N: 10, Z: 11}]
+-----> {'N': 10, 'Z': 11}
+数据集中标记的答案: 11
+
+Q37: 元旦即将来临,学校准备在教学大楼的顶部前沿从头到尾每隔5米插上一面彩旗,测得大楼的顶部前沿长50米.学校需要买多少面彩旗?
+====last_map: {'Length': 'Length_aeba', 'Interval': 'Interval_4ee8', 'TreeCnt': 'TreeCnt_8fee', 'SegmentCnt': 'SegmentCnt_6aea'}
+====last_map: {'Length': 'Length_aeba', 'Interval': 'Interval_4ee8', 'TreeCnt': 'TreeCnt_8fee', 'SegmentCnt': 'SegmentCnt_6aea'}
+构建的图： [('Length_aeba', {'type': 'Length', 'value': 50}), ('Interval_4ee8', {'type': 'Interval', 'value': 5}), ('TreeCnt_8fee', {'type': 'TreeCnt', 'value': None}), ('SegmentCnt_6aea', {'type': 'SegmentCnt', 'value': None})] [('Length_aeba', 'Interval_4ee8', {'type': 'divides', 'op': None}), ('SegmentCnt_6aea', 'TreeCnt_8fee', {'type': 'tree_relation', 'op': 'PLUS1'})]
+图模式： tree both_ends_quantity
+匹配到子图模板：Tree_both，映射：{'Y': 'Length_aeba', 'X': 'Interval_4ee8', 'N': 'SegmentCnt_6aea', 'Z': 'TreeCnt_8fee'}（已按 target 优选）
+【代入后方程】 Eq(N, 10) ; Eq(Z, N + 1)
+求解结果：[{N: 10, Z: 11}]
+-----> {'N': 10, 'Z': 11}
+数据集中标记的答案: 11
+
+Q38: 一条路上每隔10米有一根电线杆,连两端一共有24根,这条路有多少米长.
+[hook] 跳过 tree_relation 连边：当前模式 loop_closed → op = CUSTOM
+====last_map: {'Interval': 'Interval_025b', 'Length': 'Length_f55f', 'TreeCnt': 'TreeCnt_d347', 'SegmentCnt': 'SegmentCnt_dca6'}
+[hook] 跳过 tree_relation 连边：当前模式 loop_closed → op = CUSTOM
+====last_map: {'Interval': 'Interval_025b', 'Length': 'Length_f55f', 'TreeCnt': 'TreeCnt_d347', 'SegmentCnt': 'SegmentCnt_dca6'}
+构建的图： [('Interval_025b', {'type': 'Interval', 'value': 10}), ('Length_f55f', {'type': 'Length', 'value': None}), ('TreeCnt_d347', {'type': 'TreeCnt', 'value': 24}), ('SegmentCnt_dca6', {'type': 'SegmentCnt', 'value': None})] [('Length_f55f', 'Interval_025b', {'type': 'divides', 'op': None})]
+图模式： tree loop_closed
+匹配到子图模板：Tree_loop_length，映射：{'Y': 'Length_f55f', 'X': 'Interval_025b', 'Z': 'TreeCnt_d347'}（已按 target 优选）
+【代入后方程】 Eq(Y, 240)
+求解结果：[{Y: 240}]
+-----> {'Y': 240}
+数据集中标记的答案: 230
+
+Q39: 甲每小时行11千米,乙每小时行13千米,甲从南庄向南行,同时乙从北庄向北行.经过3小时后,两人相隔80千米.南北两庄相距多少千米?
+====last_map: {'Length': 'Length_9bd8', 'Interval': 'Interval_4abd', 'SegmentCnt': 'SegmentCnt_95cb', 'TreeCnt': 'TreeCnt_75d3'}
+====last_map: {'Length': 'Length_9bd8', 'Interval': 'Interval_4abd', 'SegmentCnt': 'SegmentCnt_95cb', 'TreeCnt': 'TreeCnt_75d3'}
+构建的图： [('Length_9bd8', {'type': 'Length', 'value': 80}), ('Interval_4abd', {'type': 'Interval', 'value': 80}), ('SegmentCnt_95cb', {'type': 'SegmentCnt', 'value': None}), ('TreeCnt_75d3', {'type': 'TreeCnt', 'value': None})] [('Length_9bd8', 'Interval_4abd', {'type': 'divides', 'op': None}), ('SegmentCnt_95cb', 'TreeCnt_75d3', {'type': 'tree_relation', 'op': 'PLUS1'})]
+图模式： tree both_ends_quantity
+匹配到子图模板：Tree_both，映射：{'Y': 'Length_9bd8', 'X': 'Interval_4abd', 'N': 'SegmentCnt_95cb', 'Z': 'TreeCnt_75d3'}（已按 target 优选）
+【代入后方程】 Eq(N, 1) ; Eq(Z, N + 1)
+求解结果：[{N: 1, Z: 2}]
+-----> {'N': 1, 'Z': 2}
+数据集中标记的答案: 8
+
+Q40: 一个圆形水池周长为180米,若沿着水池周围种上柳树,每隔6米栽一棵,一共栽几棵?
+[hook] 跳过 tree_relation 连边：当前模式 loop_closed → op = CUSTOM
+====last_map: {'Interval': 'Interval_b7e6', 'TreeCnt': 'TreeCnt_81f5', 'Length': 'Length_9439', 'SegmentCnt': 'SegmentCnt_2978'}
+[hook] 跳过 tree_relation 连边：当前模式 loop_closed → op = CUSTOM
+====last_map: {'Interval': 'Interval_b7e6', 'TreeCnt': 'TreeCnt_81f5', 'Length': 'Length_9439', 'SegmentCnt': 'SegmentCnt_2978'}
+构建的图： [('Interval_b7e6', {'type': 'Interval', 'value': 6}), ('TreeCnt_81f5', {'type': 'TreeCnt', 'value': None}), ('Length_9439', {'type': 'Length', 'value': 180}), ('SegmentCnt_2978', {'type': 'SegmentCnt', 'value': None})] [('Length_9439', 'Interval_b7e6', {'type': 'divides', 'op': None})]
+图模式： tree loop_closed
+匹配到子图模板：Tree_loop_length，映射：{'Y': 'Length_9439', 'X': 'Interval_b7e6', 'Z': 'TreeCnt_81f5'}（已按 target 优选）
+【代入后方程】 Eq(180, 6*Z)
+求解结果：[{Z: 30}]
+-----> {'Z': 30}
+数据集中标记的答案: 30
+
+Q41: 学校有一条长60米的小道,计划在道路一侧种树.每隔3米栽一棵,如果两端都各栽一棵树,那么共需栽多少棵树苗.
+====last_map: {'Length': 'Length_d02b', 'Interval': 'Interval_1eee', 'TreeCnt': 'TreeCnt_44ae', 'SegmentCnt': 'SegmentCnt_415a'}
+====last_map: {'Length': 'Length_d02b', 'Interval': 'Interval_1eee', 'TreeCnt': 'TreeCnt_44ae', 'SegmentCnt': 'SegmentCnt_415a'}
+构建的图： [('Length_d02b', {'type': 'Length', 'value': 60}), ('Interval_1eee', {'type': 'Interval', 'value': 3}), ('TreeCnt_44ae', {'type': 'TreeCnt', 'value': None}), ('SegmentCnt_415a', {'type': 'SegmentCnt', 'value': None})] [('Length_d02b', 'Interval_1eee', {'type': 'divides', 'op': None}), ('SegmentCnt_415a', 'TreeCnt_44ae', {'type': 'tree_relation', 'op': 'PLUS1'})]
+图模式： tree both_ends_quantity
+匹配到子图模板：Tree_both，映射：{'Y': 'Length_d02b', 'X': 'Interval_1eee', 'N': 'SegmentCnt_415a', 'Z': 'TreeCnt_44ae'}（已按 target 优选）
+【代入后方程】 Eq(N, 20) ; Eq(Z, N + 1)
+求解结果：[{N: 20, Z: 21}]
+-----> {'N': 20, 'Z': 21}
+数据集中标记的答案: 21
+
+Q42: 校门口两侧种树苗,原打算两侧都种7棵,每隔4米种一棵,实际两侧都种了9棵,每两棵树间的距离=?
+[hook] 跳过 tree_relation 连边：当前模式 both_ends_compare → op = DIFF
+[hook] both_ends_compare: 去重并补齐 Y–X1 / Y–X2 divides
+====last_map: {'Interval': 'Interval_20b1', 'TreeCnt': 'TreeCnt_5af5', 'SegmentCnt': 'SegmentCnt_cf12'}
+[hook] 跳过 tree_relation 连边：当前模式 both_ends_compare → op = DIFF
+[hook] both_ends_compare: 去重并补齐 Y–X1 / Y–X2 divides
+====last_map: {'Interval': 'Interval_20b1', 'TreeCnt': 'TreeCnt_5af5', 'SegmentCnt': 'SegmentCnt_cf12'}
+构建的图： [('TreeCnt_ff3b', {'type': 'TreeCnt', 'value': 7}), ('TreeCnt_e4d0', {'type': 'TreeCnt', 'value': 7}), ('TreeCnt_5af5', {'type': 'TreeCnt', 'value': 9}), ('SegmentCnt_cf12', {'type': 'SegmentCnt', 'value': None})] []
+图模式： tree both_ends_compare
+-----> 无子图匹配
+数据集中标记的答案: 3
+
+Q43: 园林工人沿公路一侧植树,每隔6米种一棵,一共种100棵,从第l棵到最后一棵的距离=多少米.
+[hook] 跳过 tree_relation 连边：当前模式 loop_closed → op = CUSTOM
+====last_map: {'Interval': 'Interval_1184', 'Length': 'Length_481c', 'TreeCnt': 'TreeCnt_492e', 'SegmentCnt': 'SegmentCnt_febb'}
+[hook] 跳过 tree_relation 连边：当前模式 loop_closed → op = CUSTOM
+====last_map: {'Interval': 'Interval_1184', 'Length': 'Length_481c', 'TreeCnt': 'TreeCnt_492e', 'SegmentCnt': 'SegmentCnt_febb'}
+构建的图： [('Interval_1184', {'type': 'Interval', 'value': 6}), ('Length_481c', {'type': 'Length', 'value': None}), ('TreeCnt_492e', {'type': 'TreeCnt', 'value': 100}), ('SegmentCnt_febb', {'type': 'SegmentCnt', 'value': None})] [('Length_481c', 'Interval_1184', {'type': 'divides', 'op': None})]
+图模式： tree loop_closed
+匹配到子图模板：Tree_loop_length，映射：{'Y': 'Length_481c', 'X': 'Interval_1184', 'Z': 'TreeCnt_492e'}（已按 target 优选）
+【代入后方程】 Eq(Y, 600)
+求解结果：[{Y: 600}]
+-----> {'Y': 600}
+数据集中标记的答案: 594
+
+Q44: 在一根绳子上每隔2米挂一个灯笼起点和终点都不挂,一共挂了12个灯笼,这根绳子长多少米?
+[hook] 跳过 tree_relation 连边：当前模式 loop_closed → op = CUSTOM
+====last_map: {'Interval': 'Interval_2a50', 'Length': 'Length_13f5', 'TreeCnt': 'TreeCnt_c643', 'SegmentCnt': 'SegmentCnt_1b89'}
+[hook] 跳过 tree_relation 连边：当前模式 loop_closed → op = CUSTOM
+====last_map: {'Interval': 'Interval_2a50', 'Length': 'Length_13f5', 'TreeCnt': 'TreeCnt_c643', 'SegmentCnt': 'SegmentCnt_1b89'}
+构建的图： [('Interval_2a50', {'type': 'Interval', 'value': 2}), ('Length_13f5', {'type': 'Length', 'value': None}), ('TreeCnt_c643', {'type': 'TreeCnt', 'value': 12}), ('SegmentCnt_1b89', {'type': 'SegmentCnt', 'value': None})] [('Length_13f5', 'Interval_2a50', {'type': 'divides', 'op': None})]
+图模式： tree loop_closed
+匹配到子图模板：Tree_loop_length，映射：{'Y': 'Length_13f5', 'X': 'Interval_2a50', 'Z': 'TreeCnt_c643'}（已按 target 优选）
+【代入后方程】 Eq(Y, 24)
+求解结果：[{Y: 24}]
+-----> {'Y': 24}
+数据集中标记的答案: 26
+
+Q45: 运动会长跑比赛,8人站在14米长的白线上,如果每两人之间的距离相等,请问两人之间的间隔=多少米?
+[hook] 跳过 tree_relation 连边：当前模式  → op = None
+====last_map: {'Length': 'Length_b496', 'SegmentCnt': 'SegmentCnt_4efe', 'TreeCnt': 'TreeCnt_58ac'}
+[hook] 跳过 tree_relation 连边：当前模式  → op = None
+====last_map: {'Length': 'Length_b496', 'SegmentCnt': 'SegmentCnt_4efe', 'TreeCnt': 'TreeCnt_58ac'}
+构建的图： [('Length_b496', {'type': 'Length', 'value': None}), ('SegmentCnt_4efe', {'type': 'SegmentCnt', 'value': None}), ('TreeCnt_58ac', {'type': 'TreeCnt', 'value': None})] 
+[]
+图模式： tree None
+-----> 无子图匹配
+数据集中标记的答案: 2
+
+Q46: 6个同学排成一排做操,每两个同学之间相隔2米,队伍一共长多少米.
+====last_map: {'Interval': 'Interval_29e5', 'Length': 'Length_e8a3', 'SegmentCnt': 'SegmentCnt_3443', 'TreeCnt': 'TreeCnt_df92'}
+====last_map: {'Interval': 'Interval_29e5', 'Length': 'Length_e8a3', 'SegmentCnt': 'SegmentCnt_3443', 'TreeCnt': 'TreeCnt_df92'}
+构建的图： [('Interval_29e5', {'type': 'Interval', 'value': 2}), ('Length_e8a3', {'type': 'Length', 'value': None}), ('SegmentCnt_3443', {'type': 'SegmentCnt', 'value': None}), ('TreeCnt_df92', {'type': 'TreeCnt', 'value': None})] [('Length_e8a3', 'Interval_29e5', {'type': 'divides', 'op': None}), ('SegmentCnt_3443', 'TreeCnt_df92', {'type': 'tree_relation', 'op': 'PLUS1'})]
+图模式： tree both_ends_quantity
+匹配到子图模板：Tree_both，映射：{'Y': 'Length_e8a3', 'X': 'Interval_29e5', 'N': 'SegmentCnt_3443', 'Z': 'TreeCnt_df92'}（已按 target 优选）
+【代入后方程】 Eq(N, Y/2) ; Eq(Z, N + 1)
+求解结果：[{N: Z - 1, Y: 2*Z - 2}]
+-----> {'N': Z - 1, 'Y': 2*Z - 2}
+数据集中标记的答案: 10
+
+Q47: 有一条长1600米的公路,在公路一侧从头到尾每隔20米安装一盏路灯,一共要准备多少盏路灯?
+====last_map: {'Length': 'Length_69e6', 'Interval': 'Interval_871e', 'TreeCnt': 'TreeCnt_4098', 'SegmentCnt': 'SegmentCnt_f34e'}
+====last_map: {'Length': 'Length_69e6', 'Interval': 'Interval_871e', 'TreeCnt': 'TreeCnt_4098', 'SegmentCnt': 'SegmentCnt_f34e'}
+构建的图： [('Length_69e6', {'type': 'Length', 'value': 1600}), ('Interval_871e', {'type': 'Interval', 'value': 20}), ('TreeCnt_4098', {'type': 'TreeCnt', 'value': None}), ('SegmentCnt_f34e', {'type': 'SegmentCnt', 'value': None})] [('Length_69e6', 'Interval_871e', {'type': 'divides', 'op': None}), ('SegmentCnt_f34e', 'TreeCnt_4098', {'type': 'tree_relation', 'op': 'PLUS1'})]
+图模式： tree both_ends_quantity
+匹配到子图模板：Tree_both，映射：{'Y': 'Length_69e6', 'X': 'Interval_871e', 'N': 'SegmentCnt_f34e', 'Z': 'TreeCnt_4098'}（已按 target 优选）
+【代入后方程】 Eq(N, 80) ; Eq(Z, N + 1)
+求解结果：[{N: 80, Z: 81}]
+-----> {'N': 80, 'Z': 81}
+数据集中标记的答案: 81
+
+Q48: 池塘的4周栽了一圈树,每两棵树相隔4米,甲、乙两人同时从同一棵树出发,反向而行,相遇时甲走了46米,乙走了54米,则这圈树共有多少棵.
+[hook] 跳过 tree_relation 连边：当前模式 loop_closed → op = CUSTOM
+====last_map: {'Interval': 'Interval_af32', 'TreeCnt': 'TreeCnt_443c', 'Length': 'Length_5cde', 'SegmentCnt': 'SegmentCnt_15b6'}
+[hook] 跳过 tree_relation 连边：当前模式 loop_closed → op = CUSTOM
+====last_map: {'Interval': 'Interval_af32', 'TreeCnt': 'TreeCnt_443c', 'Length': 'Length_5cde', 'SegmentCnt': 'SegmentCnt_15b6'}
+构建的图： [('Interval_af32', {'type': 'Interval', 'value': 4}), ('TreeCnt_443c', {'type': 'TreeCnt', 'value': None}), ('Length_5cde', {'type': 'Length', 'value': None}), ('SegmentCnt_15b6', {'type': 'SegmentCnt', 'value': None})] [('Length_5cde', 'Interval_af32', {'type': 'divides', 'op': None})]
+图模式： tree loop_closed
+匹配到子图模板：Tree_Loop_Closed，映射：{'L': 'Length_5cde', 'I': 'Interval_af32', 'Z': 'TreeCnt_443c'}（已按 target 优选）
+【代入后方程】 Eq(Z, L/4)
+求解结果：[{L: 4*Z}]
+-----> {'L': 4*Z}
+数据集中标记的答案: 25
+
+Q49: 在一条公路一边从头至尾每隔6米架设一根电线杆,共用51根.这条公路全长多少米?
+====last_map: {'Interval': 'Interval_438c', 'Length': 'Length_d0ba', 'TreeCnt': 'TreeCnt_ef40', 'SegmentCnt': 'SegmentCnt_7b10'}
+====last_map: {'Interval': 'Interval_438c', 'Length': 'Length_d0ba', 'TreeCnt': 'TreeCnt_ef40', 'SegmentCnt': 'SegmentCnt_7b10'}
+构建的图： [('Interval_438c', {'type': 'Interval', 'value': 6}), ('Length_d0ba', {'type': 'Length', 'value': None}), ('TreeCnt_ef40', {'type': 'TreeCnt', 'value': 51}), ('SegmentCnt_7b10', {'type': 'SegmentCnt', 'value': None})] [('Length_d0ba', 'Interval_438c', {'type': 'divides', 'op': None}), ('SegmentCnt_7b10', 'TreeCnt_ef40', {'type': 'tree_relation', 'op': 'PLUS1'})]
+图模式： tree both_ends_quantity
+匹配到子图模板：Tree_both，映射：{'Y': 'Length_d0ba', 'X': 'Interval_438c', 'N': 'SegmentCnt_7b10', 'Z': 'TreeCnt_ef40'}（已按 target 优选）
+【代入后方程】 Eq(N, Y/6) ; Eq(51, N + 1)
+求解结果：[{N: 50, Y: 300}]
+-----> {'N': 50, 'Y': 300}
+数据集中标记的答案: 300
+
+Q50: 在一次检阅中,接受检阅的一列彩车车队共30辆,每辆车长4米,前后每辆车相隔5米.这列车队共排列多长?
+[hook] 检测到多段，覆盖模式为 multi_segment，并移除误连 tree_relation
+[hook] 跳过 tree_relation 连边：当前模式 multi_segment → op = MERGE
+[hook] multi_segment: Length/Interval 分段重命名完成
+[hook] multi_segment: 添加 divides (Length1, Interval1)
+====last_map: {'Length': 'Length_bf03', 'Interval': 'Interval_7adf', 'SegmentCnt': 'SegmentCnt_e7eb', 'TreeCnt': 'TreeCnt_aa32'}
+[hook] 跳过 tree_relation 连边：当前模式 multi_segment → op = MERGE
+[hook] multi_segment: Length/Interval 分段重命名完成
+====last_map: {'Length': 'Length_bf03', 'Interval': 'Interval_7adf', 'SegmentCnt': 'SegmentCnt_e7eb', 'TreeCnt': 'TreeCnt_aa32'}
+构建的图： [('Length_4e77', {'type': 'Length1', 'value': 4}), ('Interval_7adf', {'type': 'Interval1', 'value': 5}), ('Length_bf03', {'type': 'Length2', 'value': None}), ('SegmentCnt_e7eb', {'type': 'SegmentCnt', 'value': None}), ('TreeCnt_aa32', {'type': 'TreeCnt', 'value': None})] [('Length_4e77', 'Interval_7adf', {'type': 'divides', 'op': None}), ('Length_bf03', 'Interval_7adf', {'type': 'divides', 'op': None}), ('Length_bf03', 'Interval_7adf', {'type': 'divides', 'op': None})]
+图模式： tree multi_segment
+-----> 无子图匹配
+数据集中标记的答案: 265

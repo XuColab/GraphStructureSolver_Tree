@@ -1,0 +1,404 @@
+[
+  {
+    "id":"Tree_both",
+    "topic":"tree",
+    "mode":"both_ends_quantity",
+    "nodes":[
+              {"id":"Y","type":"Length"},
+              {"id":"X","type":"Interval"},
+              {"id":"N","type":"SegmentCnt"},
+              {"id":"Z","type":"TreeCnt"}
+    ],
+    "edges":[
+              {"u":"Y","v":"X","type":"divides","op":null},
+              {"u":"N","v":"Z","type":"tree_relation","op":"PLUS1"}
+    ],
+    "formula":["N = Y / X", "Z = N + 1"],
+    "unknowns": ["N", "Z"],
+    "solver":"equation"
+  },
+  {
+    "id":"Tree_none",
+    "topic":"tree",
+    "mode":"none_end_quantity",
+    "nodes":[
+              {"id":"Y","type":"Length"},
+              {"id":"X","type":"Interval"},
+              {"id":"N","type":"SegmentCnt"},
+              {"id":"Z","type":"TreeCnt"}],
+    "edges":[
+              {"u":"Y","v":"X","type":"divides","op":null},
+              {"u":"N","v":"Z","type":"tree_relation","op":"MINUS1"}
+    ],
+    "formula":["N = Y / X", "Z = N - 1"],
+    "unknowns": ["N", "Z"],
+    "solver":"equation"
+  },
+  {
+    "id":"Tree_one",
+    "topic":"tree",
+    "mode":"one_end_quantity",
+    "nodes":[
+              {"id":"Y","type":"Length"},
+              {"id":"X","type":"Interval"},
+              {"id":"N","type":"SegmentCnt"},
+              {"id":"Z","type":"TreeCnt"}],
+    "edges":[
+              {"u":"Y","v":"X","type":"divides","op":null},
+              {"u":"N","v":"Z","type":"tree_relation","op":"EQUAL"}
+    ],
+    "formula":["N = floor(Y / X)", "Z = N"],
+    "unknowns": ["N", "Z"],
+    "solver":"equation"
+  },
+  {
+    "id":"Tree_BothEnds_distance",
+    "topic":"tree",
+    "mode":"both_ends_distance",
+    "nodes":[
+              {"id":"L","type":"Length"},
+              {"id":"I","type":"Interval"},
+              {"id":"Z","type":"TreeCnt"}
+    ],
+    "edges":[
+              {"u":"L","v":"I","type":"divides"}
+            ],
+    "formula":["L = (Z - 1) * I"],
+    "unknowns":["L"],
+    "solver":"equation"
+  },
+  {
+    "id": "Tree_Rectangle_CornerOverlap",
+    "topic": "tree",
+    "mode": "rectangle_closed",
+    "nodes": [
+      {"id": "L1", "type": "Length1"},
+      {"id": "L2", "type": "Length2"},
+      {"id": "I",  "type": "Interval"},
+      {"id": "Z",  "type": "TreeCnt"}
+    ],
+    "edges": [
+      {"u": "L1", "v": "I", "type": "divides"},
+      {"u": "L2", "v": "I", "type": "divides"}
+    ],
+    "formula": [
+      "Z = 2 * (L1 / I + 1) + 2 * (L2 / I + 1) - 4"
+    ],
+    "unknowns": ["Z"],
+    "solver": "equation"
+  },
+  {
+    "id": "Tree_IntervalCompare_Diff",
+    "topic": "tree",
+    "mode": "both_ends_compare",
+    "nodes": [
+      {"id": "Y",  "type": "Length"},
+      {"id": "X1", "type": "Interval1"},
+      {"id": "X2", "type": "Interval2"},
+      {"id": "D",  "type": "Diff"}
+    ],
+    "edges": [
+      {"u": "Y", "v": "X1", "type": "divides"},
+      {"u": "Y", "v": "X2", "type": "divides"}
+    ],
+    "formula": [
+      "D = (Y / X1 + 1) - (Y / X2 + 1)"
+    ],
+    "unknowns": ["D"],
+    "solver": "equation"
+  },
+  {
+    "id": "Tree_MultiSegment_ConnectMerge",
+    "topic": "tree",
+    "mode": "multi_segment",
+    "nodes": [
+      {"id": "L1", "type": "Length1"},
+      {"id": "L2", "type": "Length2"},
+      {"id": "I1", "type": "Interval1"},
+      {"id": "I2", "type": "Interval2"},
+      {"id": "Z",  "type": "TreeCnt"}
+    ],
+    "edges": [
+      {"u": "L1", "v": "I1", "type": "divides"},
+      {"u": "L2", "v": "I2", "type": "divides"}
+    ],
+    "formula": [
+      "Z = (L1 / I1 + 1) + (L2 / I2 + 1)"
+    ],
+    "unknowns": ["Z"],
+    "solver": "equation"
+  },
+  {
+    "id": "Tree_Adjacent_Share",
+    "topic": "tree",
+    "mode": "adjacent_share",
+    "nodes": [
+      {"id": "N", "type": "SegmentCnt"},
+      {"id": "Z", "type": "TreeCnt"}
+    ],
+    "edges": [
+      {"u": "N", "v": "Z", "type": "tree_relation", "op": "PLUS1"}
+    ],
+    "formula": ["Z = N + 1"],
+    "unknowns": ["Z"],
+    "solver": "equation"
+  },
+  {
+    "id": "Tree_TwoSides_Wrapper",
+    "topic": "tree",
+    "mode": "two_sides_wrap",
+    "nodes": [
+      {"id": "Z1", "type": "TreeCnt"},
+      {"id": "Z",  "type": "TreeCnt"}
+    ],
+    "edges": [],
+    "formula": ["Z = 2 * Z1"],
+    "unknowns": ["Z"],
+    "solver": "equation"
+  },
+{
+  "id": "Tree_OneEnd_distance",
+  "topic": "tree",
+  "mode": "one_end_distance",
+  "nodes": [
+    {"id":"L","type":"Length"},
+    {"id":"I","type":"Interval"},
+    {"id":"Z","type":"TreeCnt"}
+  ],
+  "edges": [
+    {"u":"L","v":"I","type":"divides"}
+  ],
+  "formula": ["L = Z * I"],
+  "unknowns": ["L"],
+  "solver": "equation"
+},
+{
+  "id": "Tree_NoneEnds_distance",
+  "topic": "tree",
+  "mode": "none_end_distance",
+  "nodes": [
+    {"id":"L","type":"Length"},
+    {"id":"I","type":"Interval"},
+    {"id":"Z","type":"TreeCnt"}
+  ],
+  "edges": [
+    {"u":"L","v":"I","type":"divides"}
+  ],
+  "formula": ["L = (Z + 1) * I"],
+  "unknowns": ["L"],
+  "solver": "equation"
+},
+{
+  "id": "Tree_Rectangle_NoCorners",
+  "topic": "tree",
+  "mode": "rectangle_nocorner",
+  "nodes": [
+    {"id":"L1","type":"Length1"},
+    {"id":"L2","type":"Length2"},
+    {"id":"I","type":"Interval"},
+    {"id":"Z","type":"TreeCnt"}
+  ],
+  "edges": [
+    {"u":"L1","v":"I","type":"divides"},
+    {"u":"L2","v":"I","type":"divides"}
+  ],
+  "formula": [
+    "Z = 2 * (L1 / I - 1) + 2 * (L2 / I - 1)"
+  ],
+  "unknowns": ["Z"],
+  "solver": "equation"
+},
+{
+  "id": "Tree_Rectangle_DiffIntervals",
+  "topic": "tree",
+  "mode": "rectangle_diffI_closed",
+  "nodes": [
+    {"id":"L1","type":"Length1"},
+    {"id":"L2","type":"Length2"},
+    {"id":"I1","type":"Interval1"},
+    {"id":"I2","type":"Interval2"},
+    {"id":"Z","type":"TreeCnt"}
+  ],
+  "edges": [
+    {"u":"L1","v":"I1","type":"divides"},
+    {"u":"L2","v":"I2","type":"divides"}
+  ],
+  "formula": [
+    "Z = 2 * (L1 / I1 + 1) + 2 * (L2 / I2 + 1) - 4"
+  ],
+  "unknowns": ["Z"],
+  "solver": "equation"
+},
+{
+  "id": "Tree_Rectangle_DiffIntervals_NoCorners",
+  "topic": "tree",
+  "mode": "rectangle_diffI_nocorner",
+  "nodes": [
+    {"id":"L1","type":"Length1"},
+    {"id":"L2","type":"Length2"},
+    {"id":"I1","type":"Interval1"},
+    {"id":"I2","type":"Interval2"},
+    {"id":"Z","type":"TreeCnt"}
+  ],
+  "edges": [
+    {"u":"L1","v":"I1","type":"divides"},
+    {"u":"L2","v":"I2","type":"divides"}
+  ],
+  "formula": [
+    "Z = 2 * (L1 / I1 - 1) + 2 * (L2 / I2 - 1)"
+  ],
+  "unknowns": ["Z"],
+  "solver": "equation"
+},
+{
+  "id": "Tree_BothEnds_TwoSides",
+  "topic": "tree",
+  "mode": "both_ends_two_sides",
+  "nodes": [
+    {"id":"Y","type":"Length"},
+    {"id":"X","type":"Interval"},
+    {"id":"Z","type":"TreeCnt"}
+  ],
+  "edges": [
+    {"u":"Y","v":"X","type":"divides"}
+  ],
+  "formula": [
+    "Z = 2 * (Y / X + 1)"
+  ],
+  "unknowns": ["Z"],
+  "solver": "equation"
+},
+{
+  "id": "Tree_FromSegments_OneEnd",
+  "topic": "tree",
+  "mode": "one_end_from_segments",
+  "nodes": [
+    {"id":"N","type":"SegmentCnt"},
+    {"id":"Z","type":"TreeCnt"}
+  ],
+  "edges": [
+    {"u":"N","v":"Z","type":"tree_relation","op":"EQUAL"}
+  ],
+  "formula": ["Z = N"],
+  "unknowns": ["Z"],
+  "solver": "equation"
+},
+{
+  "id": "Tree_FromSegments_NoneEnd",
+  "topic": "tree",
+  "mode": "none_end_from_segments",
+  "nodes": [
+    {"id":"N","type":"SegmentCnt"},
+    {"id":"Z","type":"TreeCnt"}
+  ],
+  "edges": [
+    {"u":"N","v":"Z","type":"tree_relation","op":"MINUS1"}
+  ],
+  "formula": ["Z = N - 1"],
+  "unknowns": ["Z"],
+  "solver": "equation"
+},
+{
+  "id": "Tree_MultiSegment_ConnectMerge_Dedup",
+  "topic": "tree",
+  "mode": "multi_segment_dedup",
+  "nodes": [
+    {"id":"L1","type":"Length1"},
+    {"id":"L2","type":"Length2"},
+    {"id":"I1","type":"Interval1"},
+    {"id":"I2","type":"Interval2"},
+    {"id":"Z","type":"TreeCnt"}
+  ],
+  "edges": [
+    {"u":"L1","v":"I1","type":"divides"},
+    {"u":"L2","v":"I2","type":"divides"}
+  ],
+  "formula": [
+    "Z = (L1 / I1 + 1) + (L2 / I2 + 1) - 1"
+  ],
+  "unknowns": ["Z"],
+  "solver": "equation"
+},
+  {
+    "id": "Tree_Loop_Closed",
+    "topic": "tree",
+    "mode": "loop_closed",
+    "nodes": [
+      {"id": "L", "type": "Length"},
+      {"id": "I", "type": "Interval"},
+      {"id": "Z", "type": "TreeCnt"}
+    ],
+    "edges": [
+      {"u": "L", "v": "I", "type": "divides"}
+    ],
+    "formula": ["Z = L / I"],
+    "unknowns": ["Z"],
+    "solver": "equation"
+  },
+{
+  "id":"Tree_loop_count",
+  "topic":"tree","mode":"loop_closed",
+  "nodes":[{"id":"Y","type":"Length"},{"id":"X","type":"Interval"},{"id":"Z","type":"TreeCnt"}],
+  "edges":[{"u":"Y","v":"X","type":"divides","op":null}],
+  "formula":["Z = Y / X"], "unknowns":["Z"], "solver":"equation"
+},
+{
+  "id":"Tree_loop_length",
+  "topic":"tree","mode":"loop_closed",
+  "nodes":[{"id":"Y","type":"Length"},{"id":"X","type":"Interval"},{"id":"Z","type":"TreeCnt"}],
+  "edges":[{"u":"Y","v":"X","type":"divides","op":null}],
+  "formula":["Y = Z * X"], "unknowns":["Y"], "solver":"equation"
+},
+{
+  "id":"Tree_loop_interval",
+  "topic":"tree","mode":"loop_closed",
+  "nodes":[{"id":"Y","type":"Length"},{"id":"X","type":"Interval"},{"id":"Z","type":"TreeCnt"}],
+  "edges":[{"u":"Y","v":"X","type":"divides","op":null}],
+  "formula":["X = Y / Z"], "unknowns":["X"], "solver":"equation"
+},
+{"id":"Tree_both_distance_len","topic":"tree","mode":"both_ends_distance",
+ "nodes":[{"id":"Y","type":"Length"},{"id":"X","type":"Interval"},{"id":"Z","type":"TreeCnt"}],
+ "edges":[], "formula":["Y = (Z - 1) * X"], "unknowns":["Y"], "solver":"equation"},
+{"id":"Tree_both_distance_interval","topic":"tree","mode":"both_ends_distance",
+ "nodes":[{"id":"Y","type":"Length"},{"id":"X","type":"Interval"},{"id":"Z","type":"TreeCnt"}],
+ "edges":[], "formula":["X = Y / (Z - 1)"], "unknowns":["X"], "solver":"equation"},
+{"id":"Tree_from_segments_index","topic":"tree","mode":"one_end_from_segments",
+ "nodes":[{"id":"Y","type":"Length"},{"id":"X","type":"Interval"},{"id":"Z","type":"TreeCnt"}],
+ "edges":[], "formula":["Z = Y / X + 1"], "unknowns":["Z"], "solver":"equation"},
+{"id":"Tree_two_intervals_count","topic":"tree","mode":"both_ends_two_intervals",
+ "nodes":[
+    {"id":"I1","type":"Interval1"},{"id":"I2","type":"Interval2"},
+    {"id":"Y","type":"Length"},{"id":"Z1","type":"TreeCnt"},{"id":"Z2","type":"TreeCnt"}
+ ],
+ "edges":[{"u":"Y","v":"I1","type":"divides","op":null},{"u":"Y","v":"I2","type":"divides","op":null}],
+ "formula":["Y = (Z1 - 1) * I1", "Z2 = Y / I2 + 1"],
+ "unknowns":["Z2"], "solver":"equation"},
+{
+  "id": "Tree_both_compare_interval",
+  "topic": "tree",
+  "mode": "both_ends_compare",
+  "nodes": [
+    {"id":"Z1","type":"TreeCnt"},
+    {"id":"Z2","type":"TreeCnt"},
+    {"id":"I1","type":"Interval"},
+    {"id":"I2","type":"Interval"}
+  ],
+  "edges": [],
+  "formula": ["(Z1 - 1) * I1 = (Z2 - 1) * I2"],
+  "solver": "equation"
+},
+{
+  "id": "Line_multi_segment_convoy",
+  "topic": "tree",
+  "mode": "multi_segment",
+  "nodes": [
+    {"id":"L1","type":"Length1"},
+    {"id":"I1","type":"Interval1"},
+    {"id":"Z", "type":"TreeCnt"},
+    {"id":"L2","type":"Length2"}
+  ],
+  "edges": [],
+  "formula": ["L2 = Z * L1 + (Z - 1) * I1"],
+  "solver": "equation"
+}
+]
