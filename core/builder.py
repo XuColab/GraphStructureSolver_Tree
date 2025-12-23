@@ -137,7 +137,7 @@ class GraphBuilder:
         raise ValueError(f"_resolve_ref: 无法解析引用 '{ref}'，请先 add_node 再连边。")
 
     # 修改 add_node：创建动态编号时，同时更新“基类”的 last_map，便于 add_edge 用基类名引用
-    def add_node(self, *, type, value=None, **attrs):
+    # def add_node(self, *, type, value=None, **attrs):
         def _is_dyn_type(t: str) -> bool:
             return bool(re.fullmatch(r'(Length|Interval)\d+', t))
 
@@ -168,6 +168,48 @@ class GraphBuilder:
             self.last_map[base] = nid
 
         return nid
+
+    def add_node(self, *, type, value=None, **attrs):
+            # ... (前面的代码保持不变: 动态类型处理等) ...
+            def _is_dyn_type(t: str) -> bool:
+                return bool(re.fullmatch(r'(Length|Interval)\d+', t))
+
+            if type not in S.NODE_TYPES and _is_dyn_type(type):
+                S.NODE_TYPES.add(type)
+
+            assert type in S.NODE_TYPES, f"未知节点类型: {type}"
+
+            # 检查已有节点
+            for nid, data in self.G.nodes(data=True):
+                if data.get("type") != type:
+                    continue
+                
+                # 判断值是否匹配 (None 匹配 None, 具体值匹配具体值)
+                if data.get("value") == value:
+                    # 【修复核心 Bug】：找到已有节点时，更新/合并新的属性（如 role）
+                    if attrs:
+                        self.G.nodes[nid].update(attrs)
+                    return nid
+                
+                # 特殊情况：已有节点无值，但新节点有值 → 更新值和属性
+                if data.get("value") is None and value is not None:
+                    self.G.nodes[nid]["value"] = value
+                    if attrs:
+                        self.G.nodes[nid].update(attrs)
+                    return nid 
+
+            # 否则创建新节点
+            nid = f"{type}_{uuid.uuid4().hex[:4]}"
+            self.G.add_node(nid, type=type, value=value, **attrs)
+            self.last_map[type] = nid
+
+            # ... (后面的代码保持不变: 处理动态类型引用) ...
+            m = re.fullmatch(r'(Length|Interval)(\d+)', type)
+            if m:
+                base = m.group(1) 
+                self.last_map[base] = nid
+
+            return nid
 
     # 修改 add_edge：用 _resolve_ref() 解析两端
     def add_edge(self, uType, vType, *, type, op=None):
