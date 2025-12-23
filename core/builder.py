@@ -206,7 +206,7 @@ class GraphBuilder:
             # ... (后面的代码保持不变: 处理动态类型引用) ...
             m = re.fullmatch(r'(Length|Interval)(\d+)', type)
             if m:
-                base = m.group(1) 
+                base = m.group(1)
                 self.last_map[base] = nid
 
             return nid
