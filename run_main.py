@@ -194,45 +194,7 @@ def preprocess(text: str) -> str:
     t = " ".join(t.split()) # 压缩多空格
     return t
 
-# 新增：统一评分函数
-# def score_solution(route_conf: float, tpl: dict|None, mapping: dict|None, solved_ok: bool, G):
-    # Coverage
-    cov = 0.0
-    if tpl and mapping:
-        need = len(tpl.get("nodes", [])) or 1
-        cov = min(1.0, len(mapping) / need)
-
-    # 目标覆盖
-    tgt_ok = 0.0
-    tgt = G.graph.get("target")
-    if tpl and tgt:
-        tpl_types = [n.get("type") for n in tpl.get("nodes", [])]
-        if tgt in tpl_types:
-            tgt_ok = 1.0
-
-    # SolveOK
-    solv = 1.0 if solved_ok else 0.0
-
-    # ====== Constraint：模板是否与图中“delta_t”一致 ======
-    tpl_id = (tpl or {}).get("id", "")
-    has_dt = any(attr.get("type")=="Time" and attr.get("role")=="delta_t"
-                 for _, attr in G.nodes(data=True))
-    cons = 0.5  # 中性起点
-    if has_dt:
-        if "DeltaT" in tpl_id:
-            cons = 1.0
-        elif "Simultaneous" in tpl_id:
-            cons = 0.0
-    else:
-        if "DeltaT" in tpl_id:
-            cons = 0.0
-        elif "Simultaneous" in tpl_id:
-            cons = 1.0
-
-    # 权重（可微调）
-    α, β, γ, δ, ζ = 0.2, 0.25, 0.2, 0.2, 0.05
-    return α*route_conf + β*cov + γ*cons + δ*solv + ζ*tgt_ok
-
+# 统一评分函数
 def score_solution(route_conf: float, tpl: dict | None, mapping: dict | None, solved_ok: bool, G):
     # Coverage
     cov = 0.0
@@ -320,7 +282,7 @@ def extract_and_solve(text: str, cand):
 
     topic, mode, conf = cand["topic"], cand.get("mode"), cand.get("conf", 0.0)
 
-    # 抽取规则（仅跑该 topic 的 Phase-2 规则）
+    # 抽取规则（Regex，仅跑该 topic 的 Phase-2 规则）
     for rx, fn in R.RULE_REGISTRY.get(topic, []):
         if rx == "__AUTO__":  # 兼容旧规则写法：忽略 __AUTO__
             continue
@@ -335,8 +297,16 @@ def extract_and_solve(text: str, cand):
         g.G.graph["topic"] = topic  # 先只立 topic
         if hasattr(g, "normalize_mode_by_knowns"):
             g.normalize_mode_by_knowns()  # 让 tree 的模式归一发挥作用
+
+    # 【修复点】：恢复执行 Hook (__AUTO__)
+    # 这一步至关重要，用于补全 SegmentCnt 节点、建立 N-Z 关系、处理多段合并等
+    for rx, fn in R.RULE_REGISTRY.get(topic, []):
+        if rx == "__AUTO__":
+            fn(g)
     
-    print("DEBUG all nodes:", [(nid, d.get("type"), d.get("role"), d.get("value"), d.get("unit")) for nid, d in g.G.nodes(data=True)])
+    # print("DEBUG all nodes:", [(nid, d.get("type"), d.get("role"), d.get("value"), d.get("unit")) for nid, d in g.G.nodes(data=True)])
+
+    print(f"DEBUG [{topic}] nodes:", [(nid, d.get("type"), d.get("role"), d.get("value")) for nid, d in g.G.nodes(data=True)])
     
     # 子图匹配
     tpl, mapping = match(g.G)
@@ -407,13 +377,15 @@ if __name__=="__main__":
     # dataset_path = Path(__file__).parent / "dataset" / "Trip_test.xlsx"
     dataset_path = Path(__file__).parent / "dataset" / "PlantingTree100.xlsx"
     
-    df = pd.read_excel(dataset_path, sheet_name="Sheet1", nrows=50)
-    questions = (df.rename(columns={"question": "question"})
-                   .assign(question=lambda d: d["question"].astype(str).str.strip())
-                   .to_dict(orient="records"))
-    for i, item in enumerate(questions, 1):
-        q = item["question"]
-        print(f"\nQ{i}: {q}")
-        out = solve(q)
-        print("----->", out)
-        print(f"数据集中标记的答案: {item.get('answer')}")
+    if dataset_path.exists():    
+        df = pd.read_excel(dataset_path, sheet_name="Sheet1", nrows=50)
+        questions = (df.rename(columns={"question": "question"})
+                    .assign(question=lambda d: d["question"].astype(str).str.strip())
+                    .to_dict(orient="records"))
+        for i, item in enumerate(questions, 1):
+            q = item["question"]
+            print(f"\nQ{i}: {q}")
+            print("----->", solve(q))
+            print(f"数据集中标记的答案: {item.get('answer')}")
+    else:
+        print(f"Dataset not found: {dataset_path}")

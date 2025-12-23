@@ -1,248 +1,6 @@
-# import re, core.registry as R, core.builder as gb
-# """
-# 植树类题型（线性 + 矩形 + 向下取整 + 反推 + 改间隔 + 多段 + 同构“灯串/木板”）
-# """
-
-# # Interval 提取 + 防御式取数
-# def _to_number(s):
-#     if s is None:
-#         return None
-#     try:
-#         v = float(s)
-#         return int(v) if v.is_integer() else v
-#     except Exception:
-#         return None
-
-# def _extract_num(m, name='num', fallback_idx=1):
-#     """优先取命名组；没有该组名时退回第 fallback_idx 个捕获组；两者都拿不到返回 None。"""
-#     gd = m.groupdict() if hasattr(m, 'groupdict') else {}
-#     s = gd.get(name)
-#     if s is None:
-#         try:
-#             s = m.group(fallback_idx)
-#         except IndexError:
-#             return None
-#     return _to_number(s)
-
-
-# # —— 正则开关 —— 
-# FLAGS = re.S | re.I   # 跨行 & 忽略大小写
-# def r(regex, action): return (re.compile(regex, FLAGS), action)
-
-# # ---- 计数单位全覆盖 ----
-# COUNT_UNITS = r"(棵|面|盏|根|盆|旗|红旗|彩旗|灯笼|桶|垃圾桶|牌|指示牌|车|辆|名|人|个|台|支|盆花|路灯|电线杆)"
-# # ---- 触发“tree”主题的关键词（动词+名词）----
-# TREE_TRIGGERS = r"(种|栽|插|摆|挂|放|立|装|设|停靠|路灯|电线杆|彩旗|红旗|垃圾桶|指示牌|树|旗|花|盆花|灯笼)"
-# # ---- 圈/环/周长 ----
-# LOOP_TRIGGERS = r"(环形|圆形|环湖|环路|一周|周长|四周)"
-# # ---- 长宽矩形 ----
-# RECT_TRIGGERS = r"(长\s*\d+(\.\d+)?\s*米.*宽\s*\d+(\.\d+)?\s*米)"
-# # ---- “从头到尾/从第1到最后/连两端/两端都不/从一端开始” ----
-# PH_FROM_TO  = r"(从头到尾|从第[一1]到最后|连两端)"
-# PH_NONE_END = r"((?:两端|两头).*不(?:栽|种|插|摆)?)"
-# PH_BOTH_END = r"((?:两端|两头).*都(?:栽|种|插|摆))"
-# PH_ONE_START= r"(从(?:一|第[一1])端开始|从起点开始|从某一(盏|面|棵)开始)"
-
-# # ====== 1) Interval 抽取更稳健（相邻/每两...之间/距离/间隔）======
-# INTERVAL_PATTS = [
-#     r(r"(?:相邻|每两(?:个|棵|面|盏|根)|两(?:个|棵|面|盏|根).{0,6}?之间).*?(?:间隔|距离)[是为]?\s*(\d+(?:\.\d+)?)\s*(?:米|千米|公里)?",
-#       lambda m,g: g.add_node(type="Interval", value=_to_number(m.group(1)))),
-#     r(r"(?:每隔|间隔|相隔)[约]?\s*(\d+(?:\.\d+)?)\s*(?:米|千米|公里)?",
-#       lambda m,g: g.add_node(type="Interval", value=_to_number(m.group(1)))),
-# ]
-
-# # ====== 2) Length 抽取扩展（“在 20 米的小道上”“周长为/是/等于 X 米”）======
-# LENGTH_PATTS = [
-#     r(r"(?:长|长度为|长度是)\s*(\d+(?:\.\d+)?)\s*(?:米|千米|公里)?", 
-#       lambda m,g: g.add_node(type="Length", value=_to_number(m.group(1)))),
-#     r(r"(?:周长(?:为|是|=)?|一周(?:为|是|=)?)\s*(\d+(?:\.\d+)?)\s*(?:米|千米|公里)?",
-#       lambda m,g: g.add_node(type="Length", value=_to_number(m.group(1)))),
-#     r(r"在\s*(\d+(?:\.\d+)?)\s*(?:米|千米|公里)\s*(?:长的)?(?:道路|公路|小道|城楼|跑道|白线)",
-#       lambda m,g: g.add_node(type="Length", value=_to_number(m.group(1)))),
-#     # “两…之间相隔 X 米/相距 X 米” → 这是总长度，不是 Interval
-#     r(r"两.{0,8}?之间(?:相隔|相距|距离)[是为]?\s*(\d+(?:\.\d+)?)\s*(?:米|千米|公里)?",
-#       lambda m,g: g.add_node(type="Length", value=_to_number(m.group(1)))),
-#     # 仅表示“求长度”的未知
-#     r(r"(?:多长|多少\s*米)", lambda m,g: g.add_node(type="Length")), 
-# ]
-
-# # ====== 3) TreeCnt/SegmentCnt 触发 & 反向题（由段/编号）======
-# COUNT_PATTS = [
-#     r(r"共(?:有|栽|种|放|插|立|装|用|架设)?\s*(\d+)\s*(?:棵|盆|面|盏|根|块|辆|个)", 
-#       lambda m,g: g.add_node(type="TreeCnt", value=int(m.group(1)))),
-#     r(r"(?:多少|几)\s*(?:棵|盆|面|盏|根|块|辆|个)", 
-#       lambda m,g: g.add_node(type="TreeCnt")),
-#     r(r"(?:多少|几)\s*段", lambda m,g: g.add_node(type="SegmentCnt")),
-# ]
-
-# # “从某一盏开始…走了 L 米…停在第多少盏”：提供 Length
-# FROM_SEGMENT_PATTS = [
-#     r(r"从某一.*?(?:开始).*?走了\s*(\d+(?:\.\d+)?)\s*米", 
-#       lambda m,g: g.add_node(type="Length", value=_to_number(m.group(1)))),
-# ]
-
-# # ====== 4) 模式判定（更广的触发短语）=====
-# MODE_PATTS = [
-#     # 闭环/一圈/周围/环形/圆形
-#     r(r"(?:环形|圆形|一圈|四周|周围)", lambda m,g: g.set_pattern("tree", "loop_closed")),
-#     # 矩形四边（注意不要把“4个角”抽成 TreeCnt=4）
-#     r(r"(?:长\s*\d+.*宽\s*\d+.*(?:四边|四周)|操场.*四边.*角)", 
-#       lambda m,g: g.set_pattern("tree", "rectangle_closed")),
-#     # 两端都不种
-#     r(r"(?:两端|两头).*(?:不(?:栽|种|插)|都不)", 
-#       lambda m,g: g.set_pattern("tree", "none_end_quantity")),
-#     # 两端都（要）种/插/放
-#     r(r"(?:两端|两头).*(?:都)?(?:要)?(?:栽|种|插|放)", 
-#       lambda m,g: g.set_pattern("tree", "both_ends_quantity")),
-#     # 两方案对比（“原来…现在/改为…” + 两个间隔）
-#     r(r"(原来|之前).*每隔\s*(\d+(?:\.\d+)?)\s*米.*(现在|改为).*每隔\s*(\d+(?:\.\d+)?)\s*米.*?(?:只装|一共|需要|就行|多少|几)",
-#       lambda m,g: (
-#         g.set_pattern("tree","both_ends_two_intervals"),
-#         g.add_node(type="Interval1", value=_to_number(m.group(2))),
-#         g.add_node(type="Interval2", value=_to_number(m.group(4))),
-#         g.G.graph.__setitem__("lock_mode", True)
-#       )),
-# ]
-
-
-
-# # ========== 规则表 ==========
-# RULES = [
-#     # ---- 主题 tree 触发（宽泛）----
-#     r(fr"{TREE_TRIGGERS}", lambda m,g: g.set_pattern("tree", g.G.graph.get("mode") or "both_ends_quantity")),
-
-#     # ---- 环/周长优先：设 loop_closed ----
-#     r(fr"{LOOP_TRIGGERS}", lambda m,g: g.set_pattern("tree","loop_closed")),
-
-#     # ---- 矩形/长宽 + 角都要 ----
-#     r(r"(操场|球场|广场|花池|长方形|正方形).*(四个?角|四边|四周).*(都)?(种|栽|插|摆)",
-#       lambda m,g: g.set_pattern("tree","rectangle_closed")),
-#     r(fr"{RECT_TRIGGERS}", 
-#       lambda m,g: (g.add_node(type="Length", value=None), g.add_node(type="Width", value=None))),
-
-#     # ---- Interval 提取（多样表述）----
-#     r(r"(?:每隔|平均每隔|相隔|间隔)\s*(\d+(\.\d+)?)\s*米",
-#       lambda m,g: g.add_node(type="Interval", value=float(m[1]) if "." in m[1] else int(m[1]))),
-#     r(r"每\s*(\d+(\.\d+)?)\s*米(?:[一一]?(?:个|棵|面|盏|根|盆|旗|灯|桶))?",
-#       lambda m,g: g.add_node(type="Interval", value=float(m[1]) if "." in m[1] else int(m[1]))),
-#     r(r"(?:相邻|每两(?:个|棵|面|盏|根)|两(棵|面|盏|根).*之间).*?(?:间隔|距离)[是为]?\s*(\d+(\.\d+)?)\s*米",
-#         lambda m,g: (
-#             None if any(d.get("type") in ("Interval1","Interval2") for _,d in g.G.nodes(data=True))
-#             else (lambda v: v is not None and g.add_node(type="Interval", value=v))(_extract_num(m))
-#         )
-#     ),
-
-#     # ---- Length 提取（未知/已知）----
-#     r(r"(?:这条|这段|该|总)?(?:路|小道|跑道|环湖|周长|前沿|顶边|长)\s*(\d+(\.\d+)?)\s*米",
-#       lambda m,g: g.add_node(type="Length", value=float(m[1]) if "." in m[1] else int(m[1]))),
-#     r(r"(?:多长|多少\s*米)", lambda m,g: g.add_node(type="Length")),
-
-#     # ---- 计数（TreeCnt）----
-#     r(fr"(?:一共|共|总共|连两端(?:一共)?)\s*(?:有|种了|栽了|插了|挂了|放了|立了|装了|设了)?\s*(\d+)\s*{COUNT_UNITS}",
-#       lambda m,g: g.add_node(type="TreeCnt", value=int(m[1]))),
-#     r(fr"(?:共|一共)\s*(\d+)\s*{COUNT_UNITS}",
-#       lambda m,g: g.add_node(type="TreeCnt", value=int(m[1]))),
-#     r(fr"(\d+)\s*{COUNT_UNITS}.*?(?:从第[一1]|到最后|两端都|连两端|总共|一共)",
-#       lambda m,g: g.add_node(type="TreeCnt", value=int(m[1]))),
-#     r(r"(?:多少|几)\s*(?:棵|面|盏|根|盆|旗|灯|桶|人|名|辆|个|台)",
-#       lambda m,g: g.add_node(type="TreeCnt")),
-
-#     # ---- 模式（none/both/one）----
-#     r(fr"{PH_NONE_END}", lambda m,g: g.set_pattern("tree","none_end_quantity")),
-#     r(fr"{PH_BOTH_END}", lambda m,g: g.set_pattern("tree","both_ends_quantity")),
-#     r(fr"{PH_ONE_START}", lambda m,g: g.set_pattern("tree","one_end_quantity")),
-#     r(fr"{PH_FROM_TO}", lambda m,g: g.set_pattern("tree","both_ends_distance")),
-
-#     # ---- 比较/变更间隔（同一路）----
-#     r(r"(原来|之前).*每隔\s*(\d+)\s*米.*(现在|改为).*每隔\s*(\d+)\s*米",
-#       lambda m,g: (
-#           g.set_pattern("tree","both_ends_compare"),
-#           g.add_node(type="Interval1", value=int(m[2])),
-#           g.add_node(type="Interval2", value=int(m[4])),
-#           g.G.graph.__setitem__("lock_mode", True)
-#       )),
-
-#     # 已有：两端植树 + 已知树数 → 距离；否则 → 树数
-#     r(r"两端.*(?:植|栽|插|摆)",
-#       lambda m,g: (g.set_pattern("tree","both_ends_distance") if g.has_node(type="TreeCnt", value=True)
-#                    else g.set_pattern("tree","both_ends_quantity"))),
-
-#     # ---- 多段 ----
-#     r(r"(由|共)?两段.*组成", lambda m,g: g.set_pattern("tree","multi_segment")),
-# ]
-
-# # 1) 长度同义：相距/距离/全长/周长
-# RULES += [
-#     r(r'(?:长|全长|长度|相距|相隔|距离)\s*(\d+(?:\.\d+)?)\s*米',
-#       lambda m,g: g.add_node(type="Length", value=float(m[1]) if '.' in m[1] else int(m[1]))),
-
-#     # 圆形/环形 + 周长（识别题型：闭环）
-#     r(r'(圆形|环形).*(周长)\s*(\d+(?:\.\d+)?)\s*米', 
-#       lambda m,g: (g.add_node(type="Length", value=float(m[3]) if '.' in m[3] else int(m[3])),
-#                    g.set_pattern("tree", "loop_closed"))),
-# ]
-
-# # 2) 间隔同义：相邻…之间的距离/前后相邻两人间隔
-# RULES += [
-#     r(r'(?:每隔|间隔|相隔)\s*(\d+(?:\.\d+)?)\s*米',
-#       lambda m,g: g.add_node(type="Interval", value=float(m[1]) if '.' in m[1] else int(m[1]))),
-
-#     r(r'(?:相邻|相隔).{0,6}?(?:之间的?(?:距离|间距)?为?|为|是)\s*(\d+(?:\.\d+)?)\s*米',
-#       lambda m,g: g.add_node(type="Interval", value=float(m[1]) if '.' in m[1] else int(m[1]))),
-
-#     r(r'前后相邻(?:两人)?(?:之间)?(?:的)?(?:距离|间距|间隔)?(?:为|是)?\s*(\d+(?:\.\d+)?)\s*米',
-#       lambda m,g: g.add_node(type="Interval", value=float(m[1]) if '.' in m[1] else int(m[1]))),
-# ]
-
-# # 3) 目标对象同义：广告牌/路灯/花盆/旗杆/盆栽… —— 询问“多少…？”
-# OBJECT_NOUNS = '(?:棵|盆|块|盏|根|杆|个|台|面|只)'
-# RULES += [
-#     r(r'多少\s*' + OBJECT_NOUNS, lambda m,g: g.add_node(type="TreeCnt")),  # 只增加未知“数量”节点
-#     r(r'一共(?:需要|安装|摆放|种|设置).*?几\s*' + OBJECT_NOUNS, lambda m,g: g.add_node(type="TreeCnt")),
-# ]
-
-# # 4) 两端 + 不/端点管控（先 none_end，后 both_ends；已有逻辑保留，这里补充同义）
-# RULES += [
-#     r(r'(两端|两头).*(都)?不(?:植|种|设|摆)', lambda m,g: g.set_pattern("tree", "none_end_quantity")),
-#     r(r'(一端).*?(不种|不植)',               lambda m,g: g.set_pattern("tree", "one_end_quantity")),
-#     r(r'(两端|两头).*(都)?(?:植|种|设|摆)',  lambda m,g: g.set_pattern("tree", "both_ends_quantity")),
-# ]
-
-# # 5) 两旁 / 两侧 —— 标记 two_sides 标志（在 hook 里乘2）
-# RULES += [
-#     r(r'(两旁|两侧|两边)', lambda m,g: g.G.graph.__setitem__("two_sides", True)),
-# ]
-
-# # 6) 队列题：X 名…排成 K 列 —— 推导“每列人数”为 TreeCnt 值；接着走 both_ends_distance
-# def _people_per_column(m, g):
-#     total = int(m[1]); cols = int(m[2])
-#     if cols > 0 and total % cols == 0:
-#         per_col = total // cols
-#         g.add_node(type="TreeCnt", value=per_col)   # 每列“人数”→ 用 TreeCnt
-#         g.set_pattern("tree", "both_ends_distance")
-# RULES += [
-#     r(r'(\d+)\s*名.*?排成\s*(\d+)\s*列', _people_per_column),
-#     r(r'每列(队伍)?长(?:多少|多长)\s*米', lambda m,g: g.add_node(type="Length")),  # 目标未知：列长
-# ]
-
-# # 7) 闭环题型（圆周摆放/种植）
-# RULES += [
-#     r(r'(沿|顺|围绕).*?(周长|周围).*?(?:每隔|间隔|相隔)\s*(\d+(?:\.\d+)?)\s*米',
-#       lambda m,g: (g.add_node(type="Interval", value=float(m[3]) if '.' in m[3] else int(m[3])),
-#                    g.set_pattern("tree","loop_closed"))),
-# ]
-
-# # 8) 相邻共享（夹子/木桩/栏杆柱…）：N 段需要 N+1 个“夹子”
-# def _adjacent_share(m, g):
-#     N = int(m[1])
-#     g.add_node(type="SegmentCnt", value=N)           # 已知段数
-#     g.set_pattern("tree", "adjacent_share")
-# RULES += [
-#     r(r'(\d+)\s*(?:条|块|段).*?相邻.*?共.*?几\s*(?:个|只)?\s*(?:夹子|木桩|柱)', _adjacent_share),
-# ]
-
 # -*- coding: utf-8 -*-
 import re, core.registry as R, core.builder as gb
+from core.registry import register_route, register_rule
 
 FLAGS = re.S | re.I   # 跨行 + 忽略大小写
 
@@ -368,7 +126,51 @@ def _num(s):
     except Exception:
         return None
 
+# 定义一组强烈的“植树”关键词，用于在 Trip 路由中进行排除/降权
+TREE_STRONG_KEYWORDS = re.compile(r"(栽|种|植|每隔|间隔|树苗|杨树|柳树)", re.I)
 
+# ==== Phase-1：路由 (修改版) ====
+
+# 1. 相遇/相向 (Join)
+register_route("trip", (
+    r"(相向|迎面|相对).*?(行|驶|走|跑)|相遇",
+    lambda m, g: (
+        # 【增强排除】：如果包含植树关键词，大概率是“环形植树反向走”的题，不应单纯视为 Trip
+        None if TREE_STRONG_KEYWORDS.search(g.G.graph.get("raw_text", ""))
+        else g.add_candidate("trip", "join", confidence=0.9, source="kw")
+    )
+))
+
+# 2. 追及 (Chase)
+register_route("trip", (
+    r"(同向|追及|追上|赶上)",
+    lambda m, g: (
+        None if TREE_STRONG_KEYWORDS.search(g.G.graph.get("raw_text", ""))
+        else g.add_candidate("trip", "chase", confidence=0.9, source="kw")
+    )
+))
+
+# 3. 速度单位 (这是硬指标，通常不会误判，保持信心)
+register_route("trip", (
+    r"(\d+(?:\.\d+)?)\s*(km/h|千?米/小时|m/s|米/秒)|速度",
+    lambda m, g: g.add_candidate("trip", g.G.graph.get("mode") or None, confidence=0.7, source="unit")
+))
+
+# 4. 距离 (Dist) - 这是一个弱特征，很容易撞车，需要降权或排除
+register_route("trip", (
+    r"(相距|距离).*(千?米|公里|km|米|m)",
+    lambda m, g: (
+        # 如果有“每隔”等词，这通常是植树的“间隔”或“全长”，而不是行程的“两地距离”
+        None if TREE_STRONG_KEYWORDS.search(g.G.graph.get("raw_text", ""))
+        else g.add_candidate("trip", g.G.graph.get("mode") or None, confidence=0.5, source="dist")
+    )
+))
+
+# 5. 时间差 (DeltaT)
+register_route("trip", (
+    r"(先|后).*?出发.*?(\d+(?:\.\d+)?)\s*(小时|h|分钟|min|秒|s).*?(后)?",
+    lambda m,g: g.add_candidate("trip", "join", confidence=0.95, source="delta_t")
+))
 
 
 # ---------- Length / 周长 ----------
@@ -771,31 +573,58 @@ def _patch_both_ends_compare(g):
 
 # hook：补 N 节点、关系边
 def hook(g: gb.GraphBuilder):
+    # 1. 只有 topic 为 tree 时才执行    
     if g.G.graph.get("topic") != "tree":
         return
 
     G = g.G
     mode = G.graph.get("mode", "")
 
-    # ① 若缺节点就补
-    if g.last_of("SegmentCnt") is None:      # N
+    # # ① 若缺节点就补
+    # if g.last_of("SegmentCnt") is None:      # N
+    #     g.add_node(type="SegmentCnt")
+    # if g.last_of("TreeCnt") is None:         # Z   ← 必须在加 edge 前保证存在
+    #     g.add_node(type="TreeCnt")
+
+    # # ② 把 N = Length / Interval 的结果连到 SegmentCnt
+    # # 加入检查  是否已经有 Length / Interval 的关系
+    # has_div = any(d["type"] == "divides" and
+    #               g.G.nodes[u]["type"] == "Length" and
+    #               g.G.nodes[v]["type"] == "Interval"
+    #               for u, v, d in g.G.edges(data=True))
+    # if (not has_div and g.last_of("Length") and g.last_of("Interval")):
+    #     g.add_edge("Length", "Interval", type="divides", op=None)
+    
+    # 2. 补全核心节点 (N 和 Z)
+    # 很多题目正则只抽到了 Length/Interval/TreeCnt，缺 SegmentCnt(N)
+    # 必须在此处显式补充，否则模板无法匹配 N 节点
+    if not g.has_node(type="SegmentCnt"):
         g.add_node(type="SegmentCnt")
-    if g.last_of("TreeCnt") is None:         # Z   ← 必须在加 edge 前保证存在
+    
+    # 确保 TreeCnt 存在 (通常已有，但为了安全起见)
+    if not g.has_node(type="TreeCnt"):
         g.add_node(type="TreeCnt")
 
-    # ② 把 N = Length / Interval 的结果连到 SegmentCnt
-    # 加入检查  是否已经有 Length / Interval 的关系
-    has_div = any(d["type"] == "divides" and
-                  g.G.nodes[u]["type"] == "Length" and
-                  g.G.nodes[v]["type"] == "Interval"
-                  for u, v, d in g.G.edges(data=True))
-    if (not has_div and g.last_of("Length") and g.last_of("Interval")):
-        g.add_edge("Length", "Interval", type="divides", op=None)
-    
+    # 3. 自动连接 Length --(divides)--> Interval (如果尚未连接)
+    # 只有当 L 和 I 都存在时才连
+    L = g.last_of("Length")
+    I = g.last_of("Interval")
+    if L and I:
+        has_div = any(
+            d.get("type") == "divides" and 
+            ((u == L and v == I) or (u == I and v == L))
+            for u, v, d in G.edges(data=True)
+        )
+        if not has_div:
+            g.add_edge(L, I, type="divides", op=None)
+
+    # 4. 尝试升级为“多段”模式 (检测是否有多组 L/I)    
     _try_promote_to_multi_segment(g)
     
     # ③ N → Z tree_relation，用正确的 op
     # regex 先 不 画 tree_relation；统一放到 hook_tree 里，等 mode 已确定再连
+    
+    # 重新获取可能被升级过的 mode    
     mode = g.G.graph.get("mode", "") # 可能刚被提升，重新取一次
     
     # op_map = {
@@ -826,6 +655,9 @@ def hook(g: gb.GraphBuilder):
     #             "one_end_from_segments": "EQUAL",
     #             "none_end_from_segments": "MINUS1"
     #         }
+    
+    # 5. 建立 SegmentCnt(N) -> TreeCnt(Z) 的树形关系边 (tree_relation)
+    # 不同的植树模式对应不同的 N/Z 关系 (加1、减1、相等)
     op_map = {
         # —— 经典三类 ——
         "both_ends_quantity": "PLUS1",    # Z = N + 1
@@ -859,26 +691,39 @@ def hook(g: gb.GraphBuilder):
         "none_end_distance": "CUSTOM",
     }
 
-    if not any(d["type"] == "tree_relation" for _, _, d in G.edges(data=True)):
-        op = op_map.get(mode)
+    # 仅当图中还没有 tree_relation 边时才添加 (防止重复 Hook 导致多条边)
+    has_tree_rel = any(d.get("type") == "tree_relation" for u, v, d in G.edges(data=True))
 
-        if op in {"PLUS1", "MINUS1", "EQUAL"}:
-            seg = g.last_of("SegmentCnt")
-            tree = g.last_of("TreeCnt")
-            if seg and tree:
-                g.add_edge(seg, tree, type="tree_relation", op=op)
-        else:
-            print(f"[hook] 跳过 tree_relation 连边：当前模式 {mode} → op = {op}")
+    # if not any(d["type"] == "tree_relation" for _, _, d in G.edges(data=True)):
+    #     op = op_map.get(mode)
 
-    # 模式专属结构补全 按模式分发时加入
+    #     if op in {"PLUS1", "MINUS1", "EQUAL"}:
+    #         seg = g.last_of("SegmentCnt")
+    #         tree = g.last_of("TreeCnt")
+    #         if seg and tree:
+    #             g.add_edge(seg, tree, type="tree_relation", op=op)
+    #     else:
+    #         print(f"[hook] 跳过 tree_relation 连边：当前模式 {mode} → op = {op}")
+
+    if not has_tree_rel:
+            op = op_map.get(mode)
+            # 只有明确的 +1/-1/Equal 关系才连边，CUSTOM/MERGE 等交给模板公式处理
+            if op in {"PLUS1", "MINUS1", "EQUAL"}:
+                seg = g.last_of("SegmentCnt")
+                tree = g.last_of("TreeCnt")
+                if seg and tree:
+                    g.add_edge(seg, tree, type="tree_relation", op=op)
+                    # print(f"[Hook] Added tree_relation: {mode} -> op={op}")
+
+    # 6. 特定模式的额外补全
     if mode == "both_ends_compare":
         _patch_both_ends_compare(g)
     elif mode == "multi_segment":
-        _patch_multi_segment(g)       # 你已有
+        _patch_multi_segment(g)
     elif mode == "rectangle_closed":
-        _patch_rectangle_closed(g)    # 你已有
+        _patch_rectangle_closed(g)
 
     print("====last_map:", g.last_map)
 
-    
+# 注册 Hook (注意是元组形式)    
 R.register_rule("tree", ("__AUTO__", hook))
