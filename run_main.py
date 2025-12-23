@@ -404,7 +404,9 @@ def solve(question: str):
     return {"score": best_sc, "candidate": best_cand, "result": best_res}
 
 if __name__=="__main__":
-    dataset_path = Path(__file__).parent / "dataset" / "Trip_test.xlsx"
+    # dataset_path = Path(__file__).parent / "dataset" / "Trip_test.xlsx"
+    dataset_path = Path(__file__).parent / "dataset" / "PlantingTree100.xlsx"
+    
     df = pd.read_excel(dataset_path, sheet_name="Sheet1", nrows=50)
     questions = (df.rename(columns={"question": "question"})
                    .assign(question=lambda d: d["question"].astype(str).str.strip())
