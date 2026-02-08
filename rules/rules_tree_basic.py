@@ -4,18 +4,18 @@ from core.registry import register_route, register_rule
 
 FLAGS = re.S | re.I   # 跨行 + 忽略大小写
 
-def r(regex, action):
-    """保持你工程里的 (regex, action) 规则对形式。"""
-    return (re.compile(regex, FLAGS), action)
+def r(regex, action): return (re.compile(regex, FLAGS), action)
 
 # ----------------- 通用工具 -----------------
 def _to_number(s: str):
     """把捕获到的数字串安全转为 int/float。"""
-    if s is None:
-        return None
-    s = s.strip()
-    s = s.replace('．', '.').replace('，', '').replace(',', '')
-    return float(s) if '.' in s else int(s)
+    if s is None: return None
+    s = s.strip().replace('．', '.').replace('，', '').replace(',', '')
+    # return float(s) if '.' in s else int(s)
+    try:
+        v = float(s)
+        return int(v) if abs(v - int(v)) < 1e-9 else v
+    except: return None    
 
 def _cap_number(patterns, text):
     """
@@ -46,17 +46,90 @@ INTERVAL_RULE = r(r'.+', lambda m,g: (
     else None
 ))
 
+# ================= 正则匹配规则库 =================
 # ------------- 数值节点（长度、宽度、树数） -------------
+# LENGTH_RULES = [
+#     r(r'长\s*(\d+(?:\.\d+)?)\s*米', lambda m,g: g.add_node(type="Length", value=_to_number(m.group(1)))),
+#     r(r'宽\s*(\d+(?:\.\d+)?)\s*米', lambda m,g: g.add_node(type="Width",  value=_to_number(m.group(1)))),
+#     r(r'周长[是为]?\s*(\d+(?:\.\d+)?)\s*米', lambda m,g: g.add_node(type="Length", value=_to_number(m.group(1)))),  # 可选
+# ]
+# 1. Length 扩充：走了 X 米 / 从起点到终点 X 米
 LENGTH_RULES = [
-    r(r'长\s*(\d+(?:\.\d+)?)\s*米', lambda m,g: g.add_node(type="Length", value=_to_number(m.group(1)))),
-    r(r'宽\s*(\d+(?:\.\d+)?)\s*米', lambda m,g: g.add_node(type="Width",  value=_to_number(m.group(1)))),
-    r(r'周长[是为]?\s*(\d+(?:\.\d+)?)\s*米', lambda m,g: g.add_node(type="Length", value=_to_number(m.group(1)))),  # 可选
+    r(r'长\s*(\d+(?:\.\d+)?)\s*(?:米|m)', lambda m,g: g.add_node(type="Length", value=_num(m.group(1)))),
+    r(r'宽\s*(\d+(?:\.\d+)?)\s*(?:米|m)', lambda m,g: g.add_node(type="Width",  value=_num(m.group(1)))),
+    r(r'周长[是为]?\s*(\d+(?:\.\d+)?)\s*(?:米|m)', lambda m,g: g.add_node(type="Length", value=_num(m.group(1)))),
+    # “走了 X 米”
+    r(r'走了\s*(\d+(?:\.\d+)?)\s*(?:米|m)', lambda m,g: g.add_node(type="Length", value=_num(m.group(1)))),
+    # “这段路/这条路...总长/全长”
+    r(r'(?:这条|这段|该|总)?(?:路|小道|跑道|城楼|绳子|队伍)(?:全长|总长|长)\s*(\d+(?:\.\d+)?)\s*(?:米|m)', 
+      lambda m,g: g.add_node(type="Length", value=_num(m.group(1)))),
+    # 距离 X 米
+    r(r'(?:相距|距离)\s*(\d+(?:\.\d+)?)\s*(?:米|m)', lambda m,g: g.add_node(type="Length", value=_num(m.group(1)))),
 ]
 
-TREECNT_RULES = [
-    r(r'共(?:有|植了|栽了)?\s*(\d+)\s*棵', lambda m,g: g.add_node(type="TreeCnt", value=int(m.group(1)))),
-    r(r'(?:多少|几)\s*棵',              lambda m,g: g.add_node(type="TreeCnt")),  # 未知树数
+# 2. Interval 扩充
+INTERVAL_RULES = [
+    r(r'(?:每隔|间隔|相隔|间距)\s*(\d+(?:\.\d+)?)\s*(?:米|m)', 
+      lambda m,g: g.add_node(type="Interval", value=_num(m.group(1)))),
+    r(r'(?:相邻|每两).*?(?:距离|间隔|相距)[是为]?\s*(\d+(?:\.\d+)?)\s*(?:米|m)',
+      lambda m,g: g.add_node(type="Interval", value=_num(m.group(1)))),
 ]
+
+# TREECNT_RULES = [
+#     r(r'共(?:有|植了|栽了)?\s*(\d+)\s*棵', lambda m,g: g.add_node(type="TreeCnt", value=int(m.group(1)))),
+#     r(r'(?:多少|几)\s*棵',              lambda m,g: g.add_node(type="TreeCnt")),  # 未知树数
+# ]
+
+# 3. TreeCnt 扩充
+TREECNT_RULES = [
+    r(r'(?:共|一共|总共|需要|安装|插|栽|种).*?\s*(\d+)\s*(?:棵|面|盏|根|盆|个|辆|只)',
+      lambda m,g: g.add_node(type="TreeCnt", value=_num(m.group(1)))),
+    r(r'(?:多少|几)\s*(?:棵|面|盏|根|盆|个|辆|只)',
+      lambda m,g: g.add_node(type="TreeCnt")),
+    # 人数相等 N 列 -> 拆分
+    r(r'(\d+)\s*.*?(?:同学|人).*?(\d+)列.*?相等',
+      lambda m,g: g.add_node(type="TreeCnt", value=_num(m.group(1)) // int(m.group(2)))),
+]
+
+# 4. 模式识别规则
+MODE_RULES = [
+    # 比较/更换间隔 (Lock)
+    r(r'(原来|之前).*每隔\s*(\d+).*?(现在|改为).*每隔\s*(\d+)',
+      lambda m,g: (
+          g.set_pattern("tree", "both_ends_compare"),
+          g.add_node(type="Interval1", value=_num(m.group(2))),
+          g.add_node(type="Interval2", value=_num(m.group(4))),
+          g.G.graph.__setitem__("lock_mode", True)
+      )),
+    
+    # 闭环：明确的环形/四周/一圈
+    r(r'(环形|圆形|一圈|四周|周围|围成)', lambda m,g: g.set_pattern("tree", "loop_closed")),
+    
+    # 两端都种（含“从起点到终点”）
+    r(r'(从头到尾|从头至尾|从起点到终点|两端都|两头都|连两端|一侧栽|一边种)', 
+      lambda m,g: g.set_pattern("tree", "both_ends_quantity")),
+    
+    # 一端不种 / 一端开始 (通常 N=Z)
+    r(r'(从某一|从第1|从第一|一端开始|一头开始)', 
+      lambda m,g: g.set_pattern("tree", "one_end_quantity")),
+    
+    # 两端都不 (含“不打结”)
+    r(r'(两端|两头).*?(不栽|不种|不插|不摆|不打结|不挂)', 
+      lambda m,g: g.set_pattern("tree", "none_end_quantity")),
+
+    # 多段/车队
+    r(r'(车|彩车).*?每.*长\s*(\d+).*?相隔\s*(\d+).*?共\s*(\d+)\s*辆',
+      lambda m,g: (
+          g.add_node(type="Length1", value=_num(m.group(2))),
+          g.add_node(type="Interval1", value=_num(m.group(3))),
+          g.add_node(type="TreeCnt", value=_num(m.group(4))),
+          g.add_node(type="Length2", value=None),
+          g.set_pattern("tree", "multi_segment")
+      ))
+]
+
+RULES = LENGTH_RULES + INTERVAL_RULES + TREECNT_RULES + MODE_RULES
+for rule in RULES: R.register_rule("tree", rule)
 
 # ------------- 模式判定（注意顺序） -------------
 TOPIC_MODE_RULES = [
@@ -723,7 +796,7 @@ def hook(g: gb.GraphBuilder):
     elif mode == "rectangle_closed":
         _patch_rectangle_closed(g)
 
-    print("====last_map:", g.last_map)
+    # print("====last_map:", g.last_map)
 
 # 注册 Hook (注意是元组形式)    
 R.register_rule("tree", ("__AUTO__", hook))

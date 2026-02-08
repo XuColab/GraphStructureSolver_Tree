@@ -375,7 +375,7 @@ def solve(question: str):
 
 if __name__=="__main__":
     # dataset_path = Path(__file__).parent / "dataset" / "Trip_test.xlsx"
-    dataset_path = Path(__file__).parent / "dataset" / "PlantingTree100.xlsx"
+    dataset_path = Path(__file__).parent / "dataset" / "test_syntax.xlsx"
     
     if dataset_path.exists():    
         df = pd.read_excel(dataset_path, sheet_name="Sheet1", nrows=50)
